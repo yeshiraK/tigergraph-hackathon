@@ -1,7 +1,7 @@
 # Project Status Record
 
 ## Current Phase
-**Phase 0A: Project Setup**
+**Phase 0B: Environment and Tooling Assessment**
 
 ---
 
@@ -15,12 +15,12 @@
   - `tgh 0.1.0` (editable install)
   - `pytest 9.1.1` (verified passing)
   - `ruff 0.16.10` (verified passing)
-- **Git Version**: `git version 2.48.1` (verified)
+- **Host Tools**:
+  - `git version 2.48.1` (verified)
+  - `Docker version 29.7.2` (verified at `/Applications/Docker.app/Contents/Resources/bin/docker`)
 - **Git Repository**: Initialized with default branch `main`
-- **Git Working Tree**: On branch `main`; modified files pending commit:
-  - `tests/test_project_config.py` (formatting & line-length fixes)
-  - `docs/development/setup.md` (documentation update)
-  - `docs/PROJECT_STATUS.md` (documentation update)
+- **Latest Commit**: `236d675` (`style: fix ruff formatting in test_project_config`)
+- **Git Working Tree**: Modified (`docs/PROJECT_STATUS.md` updated with Phase 0B assessment; uncommitted)
 
 ---
 
@@ -35,30 +35,46 @@
 - [x] **Virtual Environment & Dependencies**: Initialized `.venv` with Python 3.12, upgraded pip to `26.2.1`, and installed `tgh` in editable mode with development dependencies (`pytest>=8.0.0`, `ruff>=0.4.0`).
 - [x] **Project Quality & Formatting**: Configured and executed:
   - `pytest`: 3 passed in 0.02s (`test_package_import`, `test_pyproject_metadata`, `test_python_version`).
-  - `ruff check .`: All checks passed (exit code 0; imports sorted and line lengths <= 88 characters).
+  - `ruff check .`: All checks passed (exit code 0; imports sorted and line lengths <= 88 characters; committed in `236d675`).
 - [x] **Initial Project Documentation**: Created `README.md`, `docs/architecture/architecture.md`, `docs/development/setup.md`, `docs/development/decisions.md`, and `docs/PROJECT_STATUS.md`.
+
+### Phase 0B (Assessment & Tooling)
+- [x] **Configuration & Credential Audit**: Verified absence of active `.env` file and confirmed no TigerGraph, MCP, or LLM environment variables are currently set.
+- [x] **Local Tool Verification**: Verified Docker CLI availability (`Docker version 29.7.2`).
 
 ---
 
-## Pending Tasks
+## Pending Decisions (Requiring User Input)
 
-### Phase 0B / Immediate Next Actions
-- [ ] Review and commit pending working-tree modifications (`tests/test_project_config.py`, documentation updates).
-- [ ] Specification of TigerGraph instance target (local Docker vs cloud vs on-prem).
-- [ ] Corpus dataset selection and benchmark question format specification.
+1. **TigerGraph Deployment & Connectivity**:
+   - Deployment target: Local Docker container, remote TigerGraph Cloud instance, or pre-existing on-premise installation.
+   - Credentials and connection coordinates (`TIGERGRAPH_HOST`, `TIGERGRAPH_RESTPP_PORT`, `TIGERGRAPH_GSQL_PORT`, `TIGERGRAPH_GRAPH_NAME`, `TIGERGRAPH_USERNAME`, `TIGERGRAPH_PASSWORD`, `TIGERGRAPH_SECRET`).
+2. **Corpus Dataset & Benchmark Format**:
+   - Source corpus domain and format for documents in `data/raw/` (e.g., text, markdown, JSON, PDF).
+   - Evaluation question-answer structure and ground-truth format for `data/benchmarks/`.
+3. **Embedding Model & Reasoning LLM Providers**:
+   - Vector embedding model choice (local sentence-transformers vs hosted embedding API).
+   - LLM provider (e.g., OpenAI, Google, Anthropic, local/Ollama), model identifier, and API base/keys for reasoning policies.
+4. **TigerGraph MCP Server Integration**:
+   - MCP transport strategy (local stdio subprocess vs remote SSE HTTP service).
+   - Specific TigerGraph MCP server package or repository to use.
 
-### Unimplemented Architectural Layers (Future Phases)
+---
+
+## Blocked Tasks (Blocked on Pending Decisions)
+
+- [ ] Creating `.env` configuration file (blocked on TigerGraph deployment selection & LLM provider keys).
+- [ ] Verifying TigerGraph REST++ and GSQL network connectivity (blocked on TigerGraph instance availability).
+- [ ] Verifying TigerGraph MCP server discovery and tool listing (blocked on TigerGraph instance and MCP server deployment).
+- [ ] Populating corpus documents and benchmark test pairs (blocked on corpus dataset selection).
+
+---
+
+## Unimplemented Architectural Layers (Future Phases)
+
 - [ ] **L1 Ingestion**: Document parser, chunking engine, entity extraction, GSQL loading jobs.
 - [ ] **L2 Knowledge Stores**: TigerGraph GSQL schema deployment and vector indexing.
 - [ ] **L3 Specialists & MCP**: TigerGraph MCP server integration and retrieval tools.
 - [ ] **L4 Execution Harness**: Loop controls, budget tracking, state management, telemetry streaming.
 - [ ] **L5 Pipeline Policies**: RAG baseline, GraphRAG pipeline, Agentic GraphRAG (DeepAgents).
 - [ ] **L6 Evaluation**: Benchmark test suite, groundedness verification, comparison dashboard.
-
----
-
-## Decisions Requiring Confirmation
-
-1. **TigerGraph Connectivity**: Confirm the target TigerGraph endpoint details (local Docker container vs remote instance).
-2. **Corpus Selection**: Confirm the source corpus domain to be ingested for the benchmark.
-3. **Model & Embedding Providers**: Confirm the preferred LLM and embedding model endpoints.

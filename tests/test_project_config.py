@@ -5,10 +5,10 @@ pyproject.toml metadata is consistent, and the package structure is valid.
 Compatible with both standard library unittest and pytest.
 """
 
-from pathlib import Path
 import sys
 import tomllib
 import unittest
+from pathlib import Path
 
 
 class TestProjectConfiguration(unittest.TestCase):
@@ -16,17 +16,22 @@ class TestProjectConfiguration(unittest.TestCase):
 
     def test_python_version(self) -> None:
         """Verify runtime Python version is at least 3.12."""
+        major = sys.version_info.major
+        minor = sys.version_info.minor
         self.assertGreaterEqual(
             sys.version_info[:2],
             (3, 12),
-            f"Python 3.12+ required, found {sys.version_info.major}.{sys.version_info.minor}",
+            f"Python 3.12+ required, found {major}.{minor}",
         )
 
     def test_pyproject_metadata(self) -> None:
-        """Verify pyproject.toml exists and declares expected metadata and constraints."""
+        """Verify pyproject.toml exists and declares expected metadata."""
         repo_root = Path(__file__).resolve().parent.parent
         pyproject_file = repo_root / "pyproject.toml"
-        self.assertTrue(pyproject_file.is_file(), "pyproject.toml must exist at repo root")
+        self.assertTrue(
+            pyproject_file.is_file(),
+            "pyproject.toml must exist at repo root",
+        )
 
         with pyproject_file.open("rb") as f:
             data = tomllib.load(f)

@@ -19,8 +19,8 @@
   - `git version 2.48.1` (verified)
   - `Docker version 29.7.2` (verified at `/Applications/Docker.app/Contents/Resources/bin/docker`)
 - **Git Repository**: Initialized with default branch `main`
-- **Latest Commit**: `236d675` (`style: fix ruff formatting in test_project_config`)
-- **Git Working Tree**: Modified (`docs/PROJECT_STATUS.md` updated with Phase 0B assessment; uncommitted)
+- **Latest Commit**: `1edf1c6` (`docs: update Phase 0A project status`)
+- **Git Working Tree**: Clean (`nothing to commit, working tree clean` verified at `1edf1c6`)
 
 ---
 

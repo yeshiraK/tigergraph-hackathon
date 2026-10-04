@@ -1,0 +1,1985 @@
+{
+  "timestamp": "2026-10-04T06:56:11.772969+00:00",
+  "strategy_name": "GraphRAG_Adaptive_v1",
+  "benchmark_file": "data/benchmarks/eval_public.jsonl",
+  "embedding_model": "nomic-ai/nomic-embed-text-v1.5",
+  "embedding_dimension": 768,
+  "retrieval_configuration": {
+    "seed_top_k": 20,
+    "max_seeds_to_expand": 5,
+    "max_entities_per_seed": 5,
+    "max_domain_vertices_per_seed": 5,
+    "max_events_per_person": 5,
+    "max_events_per_venue": 10,
+    "max_graph_derived_chunks": 20,
+    "max_hops": 2,
+    "decay_per_hop": 0.9,
+    "reinforcement_weight": 0.05,
+    "adaptive_gating": true,
+    "min_vector_confidence": 0.72,
+    "min_vector_margin": 0.015
+  },
+  "total_questions": 100,
+  "overall_metrics": {
+    "recall_at_1": 0.66,
+    "recall_at_5": 0.81,
+    "recall_at_10": 0.86,
+    "recall_at_20": 0.9,
+    "mrr": 0.7289645659555163,
+    "queries_with_gold_at_1": 66,
+    "queries_with_gold_at_5": 81,
+    "queries_with_gold_at_10": 86,
+    "queries_with_gold_at_20": 90
+  },
+  "qtype_metrics": {
+    "aggregation": {
+      "count": 21,
+      "recall_at_1": 0.7142857142857143,
+      "recall_at_5": 0.9523809523809523,
+      "recall_at_10": 1.0,
+      "recall_at_20": 1.0,
+      "mrr": 0.8227513227513228
+    },
+    "lookup": {
+      "count": 19,
+      "recall_at_1": 0.8947368421052632,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "recall_at_20": 1.0,
+      "mrr": 0.9473684210526315
+    },
+    "multi_hop": {
+      "count": 28,
+      "recall_at_1": 0.14285714285714285,
+      "recall_at_5": 0.39285714285714285,
+      "recall_at_10": 0.5357142857142857,
+      "recall_at_20": 0.6428571428571429,
+      "mrr": 0.25099177595945543
+    },
+    "superlative": {
+      "count": 10,
+      "recall_at_1": 0.8,
+      "recall_at_5": 0.9,
+      "recall_at_10": 0.9,
+      "recall_at_20": 1.0,
+      "mrr": 0.8590909090909091
+    },
+    "temporal": {
+      "count": 22,
+      "recall_at_1": 1.0,
+      "recall_at_5": 1.0,
+      "recall_at_10": 1.0,
+      "recall_at_20": 1.0,
+      "mrr": 1.0
+    }
+  },
+  "latency_metrics": {
+    "avg_latency_ms": 2373.1876129999,
+    "p50_latency_ms": 2981.8012855030247,
+    "p95_latency_ms": 4672.704097248061,
+    "p99_latency_ms": 5201.453345327172,
+    "total_benchmark_duration_s": 237.34732688400254
+  },
+  "query_results": [
+    {
+      "qid": "pub-001",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 5287.788011002704,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0058 < 0.015)",
+      "num_evidence_chunks": 28,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7571, rank=1)",
+        "VectorSearch(similarity=0.7506, rank=3)",
+        "VectorSearch(similarity=0.7404, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-002",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 591.1585549911251,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8603, margin=0.0298)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8603, rank=1)",
+        "VectorSearch(similarity=0.8305, rank=2)",
+        "VectorSearch(similarity=0.8199, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-003",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4196.722831999068,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0037 < 0.015)",
+      "num_evidence_chunks": 32,
+      "num_graph_derived": 12,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7518, rank=1)",
+        "VectorSearch(similarity=0.7481, rank=2)",
+        "VectorSearch(similarity=0.7477, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-004",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4390.640017008991,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0036 < 0.015)",
+      "num_evidence_chunks": 30,
+      "num_graph_derived": 17,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7929, rank=2)",
+        "VectorSearch(similarity=0.7894, rank=3)",
+        "VectorSearch(similarity=0.7840, rank=6)"
+      ]
+    },
+    {
+      "qid": "pub-005",
+      "qtype": "multi_hop",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4333.250833995407,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 23,
+      "num_graph_derived": 8,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7961, rank=1)",
+        "VectorSearch(similarity=0.7951, rank=2)",
+        "VectorSearch(similarity=0.7904, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-006",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 415.5492530117044,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8760, margin=0.0248)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8760, rank=1)",
+        "VectorSearch(similarity=0.8512, rank=2)",
+        "VectorSearch(similarity=0.8367, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-007",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 400.8426290092757,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8370, margin=0.0334)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8370, rank=1)",
+        "VectorSearch(similarity=0.8036, rank=2)",
+        "VectorSearch(similarity=0.8008, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-008",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4809.018044004915,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0042 < 0.015)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 9,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7912, rank=1)",
+        "VectorSearch(similarity=0.7871, rank=2)",
+        "VectorSearch(similarity=0.7701, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-009",
+      "qtype": "lookup",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 773.1305490015075,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8628, margin=0.0099)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8628, rank=1)",
+        "VectorSearch(similarity=0.8529, rank=2)",
+        "VectorSearch(similarity=0.8324, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-010",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 339.9918220093241,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.7848, margin=0.0167)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7848, rank=1)",
+        "VectorSearch(similarity=0.7681, rank=2)",
+        "VectorSearch(similarity=0.7508, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-011",
+      "qtype": "multi_hop",
+      "rank": 29,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 4443.73851500859,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 30,
+      "num_graph_derived": 16,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7657, rank=2)",
+        "VectorSearch(similarity=0.7600, rank=4)",
+        "VectorSearch(similarity=0.7592, rank=5)"
+      ]
+    },
+    {
+      "qid": "pub-012",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 382.31580500723794,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8088, margin=0.0222)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8088, rank=1)",
+        "VectorSearch(similarity=0.7866, rank=2)",
+        "VectorSearch(similarity=0.7803, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-013",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 647.9575160046807,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8566, margin=0.0111)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8566, rank=1)",
+        "VectorSearch(similarity=0.8455, rank=2)",
+        "VectorSearch(similarity=0.8441, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-014",
+      "qtype": "multi_hop",
+      "rank": 19,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": true,
+      "latency_ms": 4641.568906008615,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 31,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7601, rank=2)",
+        "VectorSearch(similarity=0.7579, rank=4)",
+        "VectorSearch(similarity=0.7548, rank=7)"
+      ]
+    },
+    {
+      "qid": "pub-015",
+      "qtype": "multi_hop",
+      "rank": 23,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 4333.465434989193,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 25,
+      "num_graph_derived": 16,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7993, rank=1)",
+        "VectorSearch(similarity=0.7906, rank=2)",
+        "VectorSearch(similarity=0.7821, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-016",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 393.8148760062177,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8580, margin=0.0218)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8580, rank=1)",
+        "VectorSearch(similarity=0.8362, rank=2)",
+        "VectorSearch(similarity=0.8332, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-017",
+      "qtype": "multi_hop",
+      "rank": 22,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 3871.9142049958464,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 23,
+      "num_graph_derived": 16,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7662, rank=2)",
+        "VectorSearch(similarity=0.7644, rank=3)",
+        "VectorSearch(similarity=0.7606, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-018",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 389.86042099713814,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8638, margin=0.0307)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8638, rank=1)",
+        "VectorSearch(similarity=0.8331, rank=2)",
+        "VectorSearch(similarity=0.8307, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-019",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3635.047403993667,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0003 < 0.015)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 7,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7928, rank=1)",
+        "VectorSearch(similarity=0.7925, rank=2)",
+        "VectorSearch(similarity=0.7849, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-020",
+      "qtype": "aggregation",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 5010.989417001838,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0031 < 0.015)",
+      "num_evidence_chunks": 29,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7351, rank=1)",
+        "VectorSearch(similarity=0.7296, rank=5)",
+        "VectorSearch(similarity=0.7216, rank=12)"
+      ]
+    },
+    {
+      "qid": "pub-021",
+      "qtype": "superlative",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4545.186870003818,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0042 < 0.015)",
+      "num_evidence_chunks": 23,
+      "num_graph_derived": 12,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7582, rank=1)",
+        "VectorSearch(similarity=0.7513, rank=4)",
+        "VectorSearch(similarity=0.7451, rank=7)"
+      ]
+    },
+    {
+      "qid": "pub-022",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 4067.458429999533,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 28,
+      "num_graph_derived": 8,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7843, rank=1)",
+        "VectorSearch(similarity=0.7687, rank=2)",
+        "VectorSearch(similarity=0.7669, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-023",
+      "qtype": "multi_hop",
+      "rank": 11,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": true,
+      "latency_ms": 4558.9372260001255,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 24,
+      "num_graph_derived": 4,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7727, rank=1)",
+        "VectorSearch(similarity=0.7666, rank=2)",
+        "VectorSearch(similarity=0.7653, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-024",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3751.305603989749,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0081 < 0.015)",
+      "num_evidence_chunks": 29,
+      "num_graph_derived": 17,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7619, rank=3)",
+        "VectorSearch(similarity=0.7572, rank=4)",
+        "VectorSearch(similarity=0.7487, rank=7)"
+      ]
+    },
+    {
+      "qid": "pub-025",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 378.6903129948769,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8911, margin=0.0418)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8911, rank=1)",
+        "VectorSearch(similarity=0.8493, rank=2)",
+        "VectorSearch(similarity=0.8435, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-026",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 439.03084700286854,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8339, margin=0.0423)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8339, rank=1)",
+        "VectorSearch(similarity=0.7917, rank=2)",
+        "VectorSearch(similarity=0.7837, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-027",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3730.1968749961816,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0025 < 0.015)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 11,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7977, rank=1)",
+        "VectorSearch(similarity=0.7952, rank=2)",
+        "VectorSearch(similarity=0.7942, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-028",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3847.960665996652,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 25,
+      "num_graph_derived": 14,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8326, rank=1)",
+        "VectorSearch(similarity=0.8223, rank=2)",
+        "VectorSearch(similarity=0.8198, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-029",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 419.44375200546347,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8859, margin=0.0351)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8859, rank=1)",
+        "VectorSearch(similarity=0.8508, rank=2)",
+        "VectorSearch(similarity=0.8285, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-030",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 3889.737478995812,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 24,
+      "num_graph_derived": 11,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8024, rank=1)",
+        "VectorSearch(similarity=0.7884, rank=2)",
+        "VectorSearch(similarity=0.7858, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-031",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4323.862803998054,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 2,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8115, rank=1)",
+        "VectorSearch(similarity=0.8029, rank=2)",
+        "VectorSearch(similarity=0.8005, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-032",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 436.31861999165267,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8969, margin=0.0773)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8969, rank=1)",
+        "VectorSearch(similarity=0.8196, rank=2)",
+        "VectorSearch(similarity=0.8016, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-033",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4451.827939003124,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0128 < 0.015)",
+      "num_evidence_chunks": 21,
+      "num_graph_derived": 12,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7814, rank=1)",
+        "VectorSearch(similarity=0.7596, rank=5)",
+        "VectorSearch(similarity=0.7598, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-034",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 402.38598598807584,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8439, margin=0.0223)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8439, rank=1)",
+        "VectorSearch(similarity=0.8216, rank=2)",
+        "VectorSearch(similarity=0.8115, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-035",
+      "qtype": "lookup",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 447.81915700878017,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8378, margin=0.0003)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8378, rank=1)",
+        "VectorSearch(similarity=0.8376, rank=2)",
+        "VectorSearch(similarity=0.8302, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-036",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 396.61365500069223,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8251, margin=0.0012)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8251, rank=1)",
+        "VectorSearch(similarity=0.8239, rank=2)",
+        "VectorSearch(similarity=0.7931, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-037",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4120.438287995057,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0024 < 0.015)",
+      "num_evidence_chunks": 37,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7546, rank=14)",
+        "VectorSearch(similarity=0.7544, rank=15)",
+        "VectorSearch(similarity=0.7542, rank=16)"
+      ]
+    },
+    {
+      "qid": "pub-038",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 3980.0736739998683,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 35,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7688, rank=1)",
+        "VectorSearch(similarity=0.7656, rank=2)",
+        "VectorSearch(similarity=0.7643, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-039",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 432.5256580050336,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8231, margin=0.0198)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8231, rank=1)",
+        "VectorSearch(similarity=0.8033, rank=2)",
+        "VectorSearch(similarity=0.8001, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-040",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 477.34004000085406,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8386, margin=0.0193)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8386, rank=1)",
+        "VectorSearch(similarity=0.8192, rank=2)",
+        "VectorSearch(similarity=0.7969, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-041",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3655.8582879952155,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 27,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7964, rank=1)",
+        "VectorSearch(similarity=0.7552, rank=3)",
+        "VectorSearch(similarity=0.7479, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-042",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 421.0101909993682,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8603, margin=0.0387)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8603, rank=1)",
+        "VectorSearch(similarity=0.8215, rank=2)",
+        "VectorSearch(similarity=0.7905, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-043",
+      "qtype": "multi_hop",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 5200.581277997117,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 32,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8231, rank=1)",
+        "VectorSearch(similarity=0.8056, rank=2)",
+        "VectorSearch(similarity=0.8038, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-044",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 389.43471999664325,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8116, margin=0.0006)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8116, rank=1)",
+        "VectorSearch(similarity=0.8110, rank=2)",
+        "VectorSearch(similarity=0.8110, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-045",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4663.9525210048305,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0078 < 0.015)",
+      "num_evidence_chunks": 35,
+      "num_graph_derived": 17,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7612, rank=4)",
+        "VectorSearch(similarity=0.7574, rank=5)",
+        "VectorSearch(similarity=0.7721, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-046",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 406.3227470032871,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8584, margin=0.0517)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8584, rank=1)",
+        "VectorSearch(similarity=0.8068, rank=2)",
+        "VectorSearch(similarity=0.7915, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-047",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 398.8178370054811,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8631, margin=0.0525)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8631, rank=1)",
+        "VectorSearch(similarity=0.8106, rank=2)",
+        "VectorSearch(similarity=0.8095, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-048",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 380.7810409925878,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8381, margin=0.0369)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8381, rank=1)",
+        "VectorSearch(similarity=0.8012, rank=2)",
+        "VectorSearch(similarity=0.8004, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-049",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 413.43527600110974,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8619, margin=0.0374)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8619, rank=1)",
+        "VectorSearch(similarity=0.8245, rank=2)",
+        "VectorSearch(similarity=0.8008, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-050",
+      "qtype": "multi_hop",
+      "rank": 10,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4810.095077002188,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 11,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8074, rank=1)",
+        "VectorSearch(similarity=0.7977, rank=2)",
+        "VectorSearch(similarity=0.7864, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-051",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3508.3554059965536,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0135 < 0.015)",
+      "num_evidence_chunks": 28,
+      "num_graph_derived": 12,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7774, rank=1)",
+        "VectorSearch(similarity=0.7595, rank=4)",
+        "VectorSearch(similarity=0.7499, rank=10)"
+      ]
+    },
+    {
+      "qid": "pub-052",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 395.7807480037445,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8681, margin=0.0330)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8681, rank=1)",
+        "VectorSearch(similarity=0.8351, rank=2)",
+        "VectorSearch(similarity=0.8319, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-053",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3705.153455986874,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0006 < 0.015)",
+      "num_evidence_chunks": 31,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7633, rank=5)",
+        "VectorSearch(similarity=0.7605, rank=6)",
+        "VectorSearch(similarity=0.7575, rank=7)"
+      ]
+    },
+    {
+      "qid": "pub-054",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 396.5773739910219,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8447, margin=0.0277)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8447, rank=1)",
+        "VectorSearch(similarity=0.8170, rank=2)",
+        "VectorSearch(similarity=0.8139, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-055",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 450.537216005614,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8469, margin=0.0022)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8469, rank=1)",
+        "VectorSearch(similarity=0.8447, rank=2)",
+        "VectorSearch(similarity=0.8129, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-056",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 395.9198819939047,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8411, margin=0.0417)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8411, rank=1)",
+        "VectorSearch(similarity=0.7994, rank=2)",
+        "VectorSearch(similarity=0.7937, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-057",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 380.9976530028507,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8574, margin=0.0268)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8574, rank=1)",
+        "VectorSearch(similarity=0.8305, rank=2)",
+        "VectorSearch(similarity=0.8204, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-058",
+      "qtype": "aggregation",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3876.8254930037074,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0009 < 0.015)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 3,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7546, rank=10)",
+        "VectorSearch(similarity=0.7774, rank=1)",
+        "VectorSearch(similarity=0.7765, rank=2)"
+      ]
+    },
+    {
+      "qid": "pub-059",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 382.6559500012081,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8687, margin=0.0280)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8687, rank=1)",
+        "VectorSearch(similarity=0.8406, rank=2)",
+        "VectorSearch(similarity=0.8384, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-060",
+      "qtype": "multi_hop",
+      "rank": 5,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3763.784755006782,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 34,
+      "num_graph_derived": 14,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7750, rank=1)",
+        "VectorSearch(similarity=0.7734, rank=2)",
+        "VectorSearch(similarity=0.7710, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-061",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 436.5055590023985,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8680, margin=0.0222)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8680, rank=1)",
+        "VectorSearch(similarity=0.8458, rank=2)",
+        "VectorSearch(similarity=0.8356, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-062",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 388.92049399146345,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8583, margin=0.0325)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8583, rank=1)",
+        "VectorSearch(similarity=0.8258, rank=2)",
+        "VectorSearch(similarity=0.8248, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-063",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 394.02443400467746,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8712, margin=0.0095)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8712, rank=1)",
+        "VectorSearch(similarity=0.8617, rank=2)",
+        "VectorSearch(similarity=0.8544, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-064",
+      "qtype": "multi_hop",
+      "rank": 8,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4526.450684003066,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 33,
+      "num_graph_derived": 18,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7690, rank=4)",
+        "VectorSearch(similarity=0.7688, rank=5)",
+        "VectorSearch(similarity=0.7600, rank=9)"
+      ]
+    },
+    {
+      "qid": "pub-065",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 2955.3439090086613,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0074 < 0.015)",
+      "num_evidence_chunks": 28,
+      "num_graph_derived": 17,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7555, rank=1)",
+        "VectorSearch(similarity=0.7450, rank=3)",
+        "VectorSearch(similarity=0.7369, rank=6)"
+      ]
+    },
+    {
+      "qid": "pub-066",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3008.258661997388,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0041 < 0.015)",
+      "num_evidence_chunks": 24,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7764, rank=1)",
+        "VectorSearch(similarity=0.7723, rank=2)",
+        "VectorSearch(similarity=0.7643, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-067",
+      "qtype": "multi_hop",
+      "rank": 9,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3792.832252991502,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 23,
+      "num_graph_derived": 8,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7686, rank=1)",
+        "VectorSearch(similarity=0.7684, rank=2)",
+        "VectorSearch(similarity=0.7612, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-068",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 402.37731400702614,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8519, margin=0.0309)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8519, rank=1)",
+        "VectorSearch(similarity=0.8210, rank=2)",
+        "VectorSearch(similarity=0.8097, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-069",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4261.962630000198,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0018 < 0.015)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 11,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7748, rank=1)",
+        "VectorSearch(similarity=0.7730, rank=2)",
+        "VectorSearch(similarity=0.7676, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-070",
+      "qtype": "aggregation",
+      "rank": 9,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4114.668076988892,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0033 < 0.015)",
+      "num_evidence_chunks": 34,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7337, rank=3)",
+        "VectorSearch(similarity=0.7336, rank=4)",
+        "VectorSearch(similarity=0.7307, rank=6)"
+      ]
+    },
+    {
+      "qid": "pub-071",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 389.620627000113,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8693, margin=0.0225)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8693, rank=1)",
+        "VectorSearch(similarity=0.8468, rank=2)",
+        "VectorSearch(similarity=0.8307, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-072",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 374.2638399999123,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8681, margin=0.0464)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8681, rank=1)",
+        "VectorSearch(similarity=0.8217, rank=2)",
+        "VectorSearch(similarity=0.8195, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-073",
+      "qtype": "multi_hop",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4665.5296789977,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 28,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7593, rank=3)",
+        "VectorSearch(similarity=0.7899, rank=1)",
+        "VectorSearch(similarity=0.7578, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-074",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 416.9170139939524,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8553, margin=0.0550)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8553, rank=1)",
+        "VectorSearch(similarity=0.8003, rank=2)",
+        "VectorSearch(similarity=0.7996, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-075",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 445.61712400172837,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8638, margin=0.0307)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8638, rank=1)",
+        "VectorSearch(similarity=0.8331, rank=2)",
+        "VectorSearch(similarity=0.8184, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-076",
+      "qtype": "multi_hop",
+      "rank": 21,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 3444.136039004661,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 35,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8023, rank=1)",
+        "VectorSearch(similarity=0.7766, rank=2)",
+        "VectorSearch(similarity=0.7697, rank=5)"
+      ]
+    },
+    {
+      "qid": "pub-077",
+      "qtype": "multi_hop",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4291.045537989703,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 22,
+      "num_graph_derived": 17,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8245, rank=1)",
+        "VectorSearch(similarity=0.8206, rank=2)",
+        "VectorSearch(similarity=0.8087, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-078",
+      "qtype": "aggregation",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4172.312651004177,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0023 < 0.015)",
+      "num_evidence_chunks": 38,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7460, rank=8)",
+        "VectorSearch(similarity=0.7379, rank=16)",
+        "VectorSearch(similarity=0.7572, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-079",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 3372.859790993971,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 33,
+      "num_graph_derived": 15,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7431, rank=14)",
+        "VectorSearch(similarity=0.7412, rank=16)",
+        "VectorSearch(similarity=0.7656, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-080",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 376.78526699892245,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8899, margin=0.0624)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8899, rank=1)",
+        "VectorSearch(similarity=0.8275, rank=2)",
+        "VectorSearch(similarity=0.8195, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-081",
+      "qtype": "multi_hop",
+      "rank": 16,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": true,
+      "latency_ms": 3764.294107997557,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 21,
+      "num_graph_derived": 5,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7825, rank=7)",
+        "VectorSearch(similarity=0.7816, rank=8)",
+        "VectorSearch(similarity=0.8030, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-082",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3908.167820001836,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0104 < 0.015)",
+      "num_evidence_chunks": 29,
+      "num_graph_derived": 18,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7577, rank=3)",
+        "VectorSearch(similarity=0.7553, rank=7)",
+        "VectorSearch(similarity=0.7496, rank=8)"
+      ]
+    },
+    {
+      "qid": "pub-083",
+      "qtype": "multi_hop",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3426.0528730083024,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 26,
+      "num_graph_derived": 16,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8339, rank=1)",
+        "VectorSearch(similarity=0.8174, rank=2)",
+        "VectorSearch(similarity=0.8107, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-084",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3873.789591001696,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0015 < 0.015)",
+      "num_evidence_chunks": 21,
+      "num_graph_derived": 7,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7827, rank=3)",
+        "VectorSearch(similarity=0.7822, rank=4)",
+        "VectorSearch(similarity=0.7790, rank=5)"
+      ]
+    },
+    {
+      "qid": "pub-085",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 2884.702584997285,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0014 < 0.015)",
+      "num_evidence_chunks": 21,
+      "num_graph_derived": 10,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7710, rank=1)",
+        "VectorSearch(similarity=0.7696, rank=2)",
+        "VectorSearch(similarity=0.7629, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-086",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 381.6661019955063,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 30,
+      "num_graph_derived": 16,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7650, rank=2)",
+        "VectorSearch(similarity=0.7590, rank=4)",
+        "VectorSearch(similarity=0.7579, rank=5)"
+      ]
+    },
+    {
+      "qid": "pub-087",
+      "qtype": "aggregation",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4399.890385000617,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0046 < 0.015)",
+      "num_evidence_chunks": 26,
+      "num_graph_derived": 8,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7538, rank=9)",
+        "VectorSearch(similarity=0.7468, rank=20)",
+        "VectorSearch(similarity=0.7684, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-088",
+      "qtype": "superlative",
+      "rank": 11,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": true,
+      "latency_ms": 3539.86130800331,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0043 < 0.015)",
+      "num_evidence_chunks": 31,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7529, rank=2)",
+        "VectorSearch(similarity=0.7505, rank=3)",
+        "VectorSearch(similarity=0.7434, rank=8)"
+      ]
+    },
+    {
+      "qid": "pub-089",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3721.978287998354,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0081 < 0.015)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7898, rank=1)",
+        "VectorSearch(similarity=0.7817, rank=2)",
+        "VectorSearch(similarity=0.7722, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-090",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 436.5452570054913,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8282, margin=0.0151)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8282, rank=1)",
+        "VectorSearch(similarity=0.8131, rank=2)",
+        "VectorSearch(similarity=0.8086, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-091",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 420.4261389968451,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8618, margin=0.0250)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8618, rank=1)",
+        "VectorSearch(similarity=0.8368, rank=2)",
+        "VectorSearch(similarity=0.8323, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-092",
+      "qtype": "aggregation",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 2874.335043001338,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0088 < 0.015)",
+      "num_evidence_chunks": 21,
+      "num_graph_derived": 4,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7369, rank=6)",
+        "VectorSearch(similarity=0.7306, rank=11)",
+        "VectorSearch(similarity=0.7561, rank=1)"
+      ]
+    },
+    {
+      "qid": "pub-093",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4176.325692998944,
+      "is_graph_expanded": true,
+      "decision_reason": "low_vector_margin(0.0071 < 0.015)",
+      "num_evidence_chunks": 24,
+      "num_graph_derived": 13,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7704, rank=1)",
+        "VectorSearch(similarity=0.7633, rank=2)",
+        "VectorSearch(similarity=0.7574, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-094",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 390.28718299232423,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8620, margin=0.0269)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8620, rank=1)",
+        "VectorSearch(similarity=0.8351, rank=2)",
+        "VectorSearch(similarity=0.8330, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-095",
+      "qtype": "multi_hop",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 4429.715128004318,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 32,
+      "num_graph_derived": 19,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7876, rank=2)",
+        "VectorSearch(similarity=0.7791, rank=4)",
+        "VectorSearch(similarity=0.7777, rank=5)"
+      ]
+    },
+    {
+      "qid": "pub-096",
+      "qtype": "multi_hop",
+      "rank": 32,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 2945.0719989981735,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 36,
+      "num_graph_derived": 20,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7575, rank=3)",
+        "VectorSearch(similarity=0.7541, rank=8)",
+        "VectorSearch(similarity=0.7511, rank=11)"
+      ]
+    },
+    {
+      "qid": "pub-097",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 410.3885590011487,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8416, margin=0.0278)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8416, rank=1)",
+        "VectorSearch(similarity=0.8138, rank=2)",
+        "VectorSearch(similarity=0.7995, rank=3)"
+      ]
+    },
+    {
+      "qid": "pub-098",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "hit_20": false,
+      "latency_ms": 424.5055639912607,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 38,
+      "num_graph_derived": 19,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.7566, rank=14)",
+        "VectorSearch(similarity=0.7735, rank=1)",
+        "VectorSearch(similarity=0.7684, rank=2)"
+      ]
+    },
+    {
+      "qid": "pub-099",
+      "qtype": "multi_hop",
+      "rank": 6,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 3898.9829079946503,
+      "is_graph_expanded": true,
+      "decision_reason": "relational_language(\\bheld at\\b)",
+      "num_evidence_chunks": 25,
+      "num_graph_derived": 14,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8222, rank=1)",
+        "VectorSearch(similarity=0.8213, rank=2)",
+        "VectorSearch(similarity=0.8110, rank=4)"
+      ]
+    },
+    {
+      "qid": "pub-100",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "hit_20": true,
+      "latency_ms": 398.5473430075217,
+      "is_graph_expanded": false,
+      "decision_reason": "confident_vector(top_sim=0.8651, margin=0.0249)",
+      "num_evidence_chunks": 20,
+      "num_graph_derived": 0,
+      "provenance_sample": [
+        "VectorSearch(similarity=0.8651, rank=1)",
+        "VectorSearch(similarity=0.8401, rank=2)",
+        "VectorSearch(similarity=0.8320, rank=3)"
+      ]
+    }
+  ]
+}

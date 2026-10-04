@@ -51,11 +51,18 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+
+# Benchmark files: eval_hidden.jsonl is strictly ignored; eval_public.jsonl is included
 data/benchmarks/*
 !data/benchmarks/.gitkeep
+!data/benchmarks/eval_public.jsonl
+data/benchmarks/eval_hidden.jsonl
+
+# Large data formats and embeddings
 *.parquet
 *.sqlite
 *.db
+*.npz
 
 # Graph Exports, Indexes & Cache
 graph/indexes/*
@@ -66,8 +73,16 @@ graph/exports/*
 # Experiment Runs, Logs & Telemetry Traces
 experiments/runs/*
 !experiments/runs/.gitkeep
+!experiments/runs/agentic_graphrag_public_benchmark.json
+!experiments/runs/tigergraph_nomic_public_benchmark.json
+!experiments/runs/tigergraph_graphrag_public_benchmark.json
+!experiments/runs/tigergraph_adaptive_graphrag_public_benchmark.json
+experiments/runs/*hidden*
+
 experiments/results/*
 !experiments/results/.gitkeep
+!experiments/results/metrics_dashboard.md
+
 *.log
 logs/
 

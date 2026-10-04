@@ -1,0 +1,919 @@
+{
+  "benchmark_file": "data/benchmarks/eval_public.jsonl",
+  "model": "nomic-ai/nomic-embed-text-v1.5",
+  "dimension": 768,
+  "total_questions": 100,
+  "recall_at_1": 0.68,
+  "recall_at_5": 0.83,
+  "recall_at_10": 0.86,
+  "mrr": 0.7394371918930743,
+  "queries_with_gold_at_10": 86,
+  "queries_with_gold_top_20": 90,
+  "avg_latency_ms": 430.6620257401664,
+  "p50_latency_ms": 400.2326069967239,
+  "p95_latency_ms": 442.21645165089285,
+  "p99_latency_ms": 737.9741751540963,
+  "total_duration_s": 43.076890047988854,
+  "query_results": [
+    {
+      "qid": "pub-001",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 2730.680939988815
+    },
+    {
+      "qid": "pub-002",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 717.8458239941392
+    },
+    {
+      "qid": "pub-003",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.3623020016821
+    },
+    {
+      "qid": "pub-004",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 393.052269006148
+    },
+    {
+      "qid": "pub-005",
+      "qtype": "multi_hop",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 408.67397301190067
+    },
+    {
+      "qid": "pub-006",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.65616499306634
+    },
+    {
+      "qid": "pub-007",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 460.35498099809047
+    },
+    {
+      "qid": "pub-008",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.37217499047983
+    },
+    {
+      "qid": "pub-009",
+      "qtype": "lookup",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.0480120066786
+    },
+    {
+      "qid": "pub-010",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.540627000737
+    },
+    {
+      "qid": "pub-011",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 394.37654698849656
+    },
+    {
+      "qid": "pub-012",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 415.25711899157614
+    },
+    {
+      "qid": "pub-013",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.1685190121643
+    },
+    {
+      "qid": "pub-014",
+      "qtype": "multi_hop",
+      "rank": 17,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 419.15627699927427
+    },
+    {
+      "qid": "pub-015",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 433.13015399326105
+    },
+    {
+      "qid": "pub-016",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 397.7269519964466
+    },
+    {
+      "qid": "pub-017",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 390.77488900511526
+    },
+    {
+      "qid": "pub-018",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.0208830018528
+    },
+    {
+      "qid": "pub-019",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 419.4032689993037
+    },
+    {
+      "qid": "pub-020",
+      "qtype": "aggregation",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.2737199916737
+    },
+    {
+      "qid": "pub-021",
+      "qtype": "superlative",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 429.29190800350625
+    },
+    {
+      "qid": "pub-022",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 390.6903580063954
+    },
+    {
+      "qid": "pub-023",
+      "qtype": "multi_hop",
+      "rank": 11,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 427.2585699945921
+    },
+    {
+      "qid": "pub-024",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 420.64845700224396
+    },
+    {
+      "qid": "pub-025",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 401.7999380012043
+    },
+    {
+      "qid": "pub-026",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.5009800021071
+    },
+    {
+      "qid": "pub-027",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.3121450039325
+    },
+    {
+      "qid": "pub-028",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 428.6343440035125
+    },
+    {
+      "qid": "pub-029",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.9971840039361
+    },
+    {
+      "qid": "pub-030",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 390.60066700039897
+    },
+    {
+      "qid": "pub-031",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.0236860024743
+    },
+    {
+      "qid": "pub-032",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.44447100081015
+    },
+    {
+      "qid": "pub-033",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.6321380054578
+    },
+    {
+      "qid": "pub-034",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.7832059976645
+    },
+    {
+      "qid": "pub-035",
+      "qtype": "lookup",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 412.0612699916819
+    },
+    {
+      "qid": "pub-036",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 395.85982699645683
+    },
+    {
+      "qid": "pub-037",
+      "qtype": "superlative",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 391.9996229960816
+    },
+    {
+      "qid": "pub-038",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 405.8023069956107
+    },
+    {
+      "qid": "pub-039",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 404.33880301134195
+    },
+    {
+      "qid": "pub-040",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 426.4558790018782
+    },
+    {
+      "qid": "pub-041",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 448.1874089979101
+    },
+    {
+      "qid": "pub-042",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 396.0991250060033
+    },
+    {
+      "qid": "pub-043",
+      "qtype": "multi_hop",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 397.1772489894647
+    },
+    {
+      "qid": "pub-044",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.1914940017741
+    },
+    {
+      "qid": "pub-045",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.5424939969089
+    },
+    {
+      "qid": "pub-046",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 408.74557399365585
+    },
+    {
+      "qid": "pub-047",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.1284349994967
+    },
+    {
+      "qid": "pub-048",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.6597999992082
+    },
+    {
+      "qid": "pub-049",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.948493000702
+    },
+    {
+      "qid": "pub-050",
+      "qtype": "multi_hop",
+      "rank": 13,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 400.37275999202393
+    },
+    {
+      "qid": "pub-051",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.13133799948264
+    },
+    {
+      "qid": "pub-052",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.71214199997485
+    },
+    {
+      "qid": "pub-053",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 395.58858699456323
+    },
+    {
+      "qid": "pub-054",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 393.0711510038236
+    },
+    {
+      "qid": "pub-055",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.73678601381835
+    },
+    {
+      "qid": "pub-056",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 418.9875820011366
+    },
+    {
+      "qid": "pub-057",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 391.34185400325805
+    },
+    {
+      "qid": "pub-058",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.2978520016186
+    },
+    {
+      "qid": "pub-059",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.63417400757316
+    },
+    {
+      "qid": "pub-060",
+      "qtype": "multi_hop",
+      "rank": 5,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.2584030056605
+    },
+    {
+      "qid": "pub-061",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.5297140011098
+    },
+    {
+      "qid": "pub-062",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.88442199479323
+    },
+    {
+      "qid": "pub-063",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.5384430056438
+    },
+    {
+      "qid": "pub-064",
+      "qtype": "multi_hop",
+      "rank": 3,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.5742659899406
+    },
+    {
+      "qid": "pub-065",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 445.5820100120036
+    },
+    {
+      "qid": "pub-066",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 413.9239429932786
+    },
+    {
+      "qid": "pub-067",
+      "qtype": "multi_hop",
+      "rank": 9,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "latency_ms": 393.0066900065867
+    },
+    {
+      "qid": "pub-068",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 421.02323001017794
+    },
+    {
+      "qid": "pub-069",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 395.9235600050306
+    },
+    {
+      "qid": "pub-070",
+      "qtype": "aggregation",
+      "rank": 5,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.70745500409976
+    },
+    {
+      "qid": "pub-071",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 442.0393170003081
+    },
+    {
+      "qid": "pub-072",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.4540030055214
+    },
+    {
+      "qid": "pub-073",
+      "qtype": "multi_hop",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 397.3681929928716
+    },
+    {
+      "qid": "pub-074",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 421.9495930010453
+    },
+    {
+      "qid": "pub-075",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 409.68277100182604
+    },
+    {
+      "qid": "pub-076",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 398.46912199573126
+    },
+    {
+      "qid": "pub-077",
+      "qtype": "multi_hop",
+      "rank": 7,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "latency_ms": 419.52119300549384
+    },
+    {
+      "qid": "pub-078",
+      "qtype": "aggregation",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 400.0251959951129
+    },
+    {
+      "qid": "pub-079",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 390.34453699423466
+    },
+    {
+      "qid": "pub-080",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.3628709958866
+    },
+    {
+      "qid": "pub-081",
+      "qtype": "multi_hop",
+      "rank": 14,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 409.01684200798627
+    },
+    {
+      "qid": "pub-082",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.9889029999031
+    },
+    {
+      "qid": "pub-083",
+      "qtype": "multi_hop",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 399.4028529996285
+    },
+    {
+      "qid": "pub-084",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 390.3304670093348
+    },
+    {
+      "qid": "pub-085",
+      "qtype": "superlative",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 405.7759330025874
+    },
+    {
+      "qid": "pub-086",
+      "qtype": "multi_hop",
+      "rank": 2,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 383.578866996686
+    },
+    {
+      "qid": "pub-087",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 435.25899600354023
+    },
+    {
+      "qid": "pub-088",
+      "qtype": "superlative",
+      "rank": 4,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 392.91697400039993
+    },
+    {
+      "qid": "pub-089",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 425.68227798619773
+    },
+    {
+      "qid": "pub-090",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 407.72784501314163
+    },
+    {
+      "qid": "pub-091",
+      "qtype": "lookup",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 388.7487739993958
+    },
+    {
+      "qid": "pub-092",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.2831419943832
+    },
+    {
+      "qid": "pub-093",
+      "qtype": "aggregation",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 389.0727409889223
+    },
+    {
+      "qid": "pub-094",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 410.97802500007674
+    },
+    {
+      "qid": "pub-095",
+      "qtype": "multi_hop",
+      "rank": 5,
+      "hit_1": false,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 410.0629690074129
+    },
+    {
+      "qid": "pub-096",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 399.6677230024943
+    },
+    {
+      "qid": "pub-097",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 410.068607001449
+    },
+    {
+      "qid": "pub-098",
+      "qtype": "multi_hop",
+      "rank": null,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": false,
+      "latency_ms": 399.87140099401586
+    },
+    {
+      "qid": "pub-099",
+      "qtype": "multi_hop",
+      "rank": 8,
+      "hit_1": false,
+      "hit_5": false,
+      "hit_10": true,
+      "latency_ms": 389.7120269975858
+    },
+    {
+      "qid": "pub-100",
+      "qtype": "temporal",
+      "rank": 1,
+      "hit_1": true,
+      "hit_5": true,
+      "hit_10": true,
+      "latency_ms": 406.3226180005586
+    }
+  ]
+}

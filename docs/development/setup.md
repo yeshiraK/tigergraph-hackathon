@@ -5,8 +5,8 @@ This document records the verified development environment findings and commands
 ## Verified Environment Details
 
 - **Host Operating System**: macOS
-- **Working Directory**: `/Users/yeshi/Desktop/tgh`
-- **Python Version**: `3.12.0` (Verified at `/usr/local/bin/python3.12` and `/Users/yeshi/.pyenv/shims/python3`)
+- **Working Directory**: Project root (`tigergraph-hackathon`)
+- **Python Version**: `3.12.0` (Verified at `python3.12`)
 - **Python venv**: Verified created at `.venv` (`Python 3.12.0`)
 - **Package Manager & Dependencies**: Installed via `pip 26.2.1`:
   - `tgh 0.1.0` (editable install from repo root)

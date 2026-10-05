@@ -74,6 +74,7 @@ graph/exports/*
 experiments/runs/*
 !experiments/runs/.gitkeep
 !experiments/runs/agentic_graphrag_public_benchmark.json
+!experiments/runs/agentic_graphrag_public_benchmark_llm_complete.json
 !experiments/runs/tigergraph_nomic_public_benchmark.json
 !experiments/runs/tigergraph_graphrag_public_benchmark.json
 !experiments/runs/tigergraph_adaptive_graphrag_public_benchmark.json
@@ -82,9 +83,15 @@ experiments/runs/*hidden*
 experiments/results/*
 !experiments/results/.gitkeep
 !experiments/results/metrics_dashboard.md
+!results/metrics_dashboard.md
 
 *.log
 logs/
+local/
+tmp/
+scratch/
+private/
+secrets/
 
 # IDE and OS
 .DS_Store

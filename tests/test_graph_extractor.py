@@ -503,7 +503,7 @@ class TestGraphExtractor(unittest.TestCase):
 
     def test_real_corpus_extraction_integrity(self) -> None:
         """Integration test on data/raw/corpus.jsonl verifying zero errors."""
-        corpus_path = Path("/Users/yeshi/Desktop/tgh/data/raw/corpus.jsonl")
+        corpus_path = Path(__file__).resolve().parent.parent / "data" / "raw" / "corpus.jsonl"
         self.assertTrue(corpus_path.is_file(), "corpus.jsonl must exist")
 
         res = extract_graph_from_corpus(corpus_path)

@@ -12,13 +12,13 @@
 Two targeted, corpus-grounded corrections were implemented in the deterministic extraction pipeline:
 
 1. **Person vs. Team Classification (`is_team_event`)**:
-   - Location: [`src/tgh/ingestion/graph_extractor.py`](file:///Users/yeshi/Desktop/tgh/src/tgh/ingestion/graph_extractor.py)
+   - Location: `src/tgh/ingestion/graph_extractor.py`
    - **Solo/Individual Precedence**: If the combined title and event text explicitly contains `"solo"` or `"individual"`, the event is classified as `Person` (single athlete), taking strict precedence over generic `"synchronized"` or `teams:` infobox heuristics.
    - **Multi-Crew Sailing / Gymnastics Recognition**: Added deterministic detection for known multi-crew classes (`"49er"`, `"470"`, `"nacra 17"`, `"nacra"`, `"yngling"`, and `"group"` in rhythmic gymnastics), properly classifying them as `Team`.
    - **Conservative Fallback**: Preserved existing conservative heuristics for single-handed boats (`Laser`, `Finn`) when `t_num == c_num`.
 
 2. **Chunk-Level MENTIONS Provenance**:
-   - Location: [`src/tgh/ingestion/graph_extractor.py`](file:///Users/yeshi/Desktop/tgh/src/tgh/ingestion/graph_extractor.py)
+   - Location: `src/tgh/ingestion/graph_extractor.py`
    - Replaced naive `#c0000` document-level linking with exact chunk text scanning using production `SemanticChunker(target_tokens=768)`.
    - `Chunk -(MENTIONS)-> Entity` edges are emitted **only** when the entity surface text (or 3-letter NOC code with word boundaries) physically appears within that specific chunk's text.
    - Multiple chunk occurrences create multiple provenance edges to the **same single canonical Entity vertex** (no vertex duplication).

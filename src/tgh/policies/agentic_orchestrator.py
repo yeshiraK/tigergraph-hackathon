@@ -5,10 +5,27 @@ from __future__ import annotations
 import logging
 import os
 import re
+import socket
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Ensure IPv4 resolution preference for reliable cloud API connectivity on macOS
+_orig_getaddrinfo = socket.getaddrinfo
+
+
+def _ipv4_getaddrinfo(host: Any, port: Any, family: int = 0, type: int = 0, proto: int = 0, flags: int = 0) -> Any:
+    if family == 0 or family == socket.AF_UNSPEC:
+        family = socket.AF_INET
+    return _orig_getaddrinfo(host, port, family, type, proto, flags)
+
+
+socket.getaddrinfo = _ipv4_getaddrinfo
 
 from deepagents import create_deep_agent
 from deepagents.backends.filesystem import FilesystemBackend
@@ -17,6 +34,7 @@ from deepagents.middleware.skills import (
     SkillsMiddleware,
     _list_skills,
 )
+from langchain_core.messages import AIMessage
 from langchain_core.tools import tool
 
 from tgh.embeddings.nomic import NomicEmbeddingProvider
@@ -60,11 +78,15 @@ class AgenticOrchestrationResult:
     evidence_items: list[EvidenceItem] = field(default_factory=list)
     skills_invoked: list[str] = field(default_factory=list)
     model_name: str | None = None
+    model_provider: str | None = None
+    model_call_count: int = 0
+    execution_mode: str = "model_driven"
     input_tokens: int = 0
     output_tokens: int = 0
     total_tokens: int = 0
     model_latency_ms: float = 0.0
     model_answer: str | None = None
+    action_trace: list[dict[str, Any]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -81,11 +103,15 @@ class AgenticOrchestrationResult:
             "skills_invoked": self.skills_invoked,
             "evidence_count": self.state_view.evidence_count,
             "model_name": self.model_name,
+            "model_provider": self.model_provider,
+            "model_call_count": self.model_call_count,
+            "execution_mode": self.execution_mode,
             "input_tokens": self.input_tokens,
             "output_tokens": self.output_tokens,
             "total_tokens": self.total_tokens,
             "model_latency_ms": self.model_latency_ms,
             "model_answer": self.model_answer,
+            "action_trace": self.action_trace,
         }
 
 
@@ -149,20 +175,25 @@ class AgenticGraphRAGOrchestrator:
             or getattr(model, "model", None)
             or (type(model).__name__ if model is not None else None)
         )
+        self.model_provider: str | None = (
+            "Google Gemini API"
+            if self.model_name and "gemini" in str(self.model_name).lower()
+            else getattr(model, "_llm_type", None)
+        )
         if self.model is None and enable_model_agent:
             gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("LLM_API_KEY")
             if gemini_key:
                 try:
                     from langchain_google_genai import ChatGoogleGenerativeAI
 
-                    model_name = os.getenv("LLM_MODEL_NAME") or "gemini-3.5-flash-lite"
+                    model_name = (os.getenv("LLM_MODEL_NAME") or "").strip() or "gemini-3.5-flash-lite"
                     self.model = ChatGoogleGenerativeAI(
                         model=model_name,
                         api_key=gemini_key,
                         max_retries=1,
-                        temperature=0.0,
                     )
                     self.model_name = model_name
+                    self.model_provider = "Google Gemini API"
                 except Exception as e:
                     logger.warning(f"Could not initialize ChatGoogleGenerativeAI: {e}")
                     self.model = None
@@ -215,6 +246,13 @@ class AgenticGraphRAGOrchestrator:
                 "is_venue_multihop": bool(venue_cue)
                 or strat_enum == AgentStrategy.A2_DETERMINISTIC_GRAPH,
             }
+            # If venue_cue was omitted by model in A2, extract cues from question as defaults
+            if strat_enum == AgentStrategy.A2_DETERMINISTIC_GRAPH and not analysis["venue_cue"]:
+                extracted = self._execute_question_analysis_skill(question, state)
+                analysis["venue_cue"] = extracted.get("venue_cue")
+                analysis["year"] = analysis["year"] or extracted.get("year")
+                analysis["date_cue"] = analysis["date_cue"] or extracted.get("date_cue")
+
             HarnessReducer.apply_event(
                 state,
                 "SKILL_EXECUTED",
@@ -294,6 +332,9 @@ class AgenticGraphRAGOrchestrator:
                 if d and d not in seen:
                     seen.add(d)
                     unique_ranked.append(d)
+
+            if not candidate_answer and unique_ranked:
+                candidate_answer = unique_ranked[0]
 
             HarnessReducer.apply_event(
                 state, "DOCS_RANKED", {"ranked_doc_ids": unique_ranked}
@@ -424,6 +465,7 @@ class AgenticGraphRAGOrchestrator:
 
             return {
                 "status": verification.status.value,
+                "is_sufficient": verification.sufficiency.is_sufficient,
                 "repair_used": repair_used,
                 "repair_count": state.repair_count,
                 "ranked_doc_ids": unique_ranked[:5],
@@ -494,25 +536,22 @@ class AgenticGraphRAGOrchestrator:
             "You are the Olympic GraphRAG Agent governed by an authoritative "
             "Execution Harness.\n"
             "Your decisions must strictly follow the procedural guidance in /skills/:\n"
-            "- question-analysis: Analyze entity mentions, venues, temporal "
-            "constraints, and intent.\n"
+            "- question-analysis: Analyze entity mentions, venues, temporal constraints, and intent.\n"
             "- retrieval-strategy-selection:\n"
-            "    * If the question has venue/location or aggregation (e.g. held at "
-            "<venue>, how many nations), call run_a2_graph_reasoning.\n"
-            "    * If the question asks about athlete representation or "
-            "participation, call run_a1_graph_rag.\n"
-            "    * Otherwise, call run_a0_vector_rag.\n"
-            "- graph-reasoning: Bounded graph traversal for candidate event "
-            "filtering.\n"
-            "- evidence-verification: Verify candidate answers against the Evidence "
-            "Ledger (max 1 repair permitted).\n"
+            "    * For venue/location or multihop questions (e.g. 'held at <venue>'), invoke run_a2_graph_reasoning.\n"
+            "    * For athlete representation or participation questions, invoke run_a1_graph_rag.\n"
+            "    * For direct semantic lookups, invoke run_a0_vector_rag.\n"
+            "- graph-reasoning: Bounded graph traversal for candidate event filtering.\n"
+            "- evidence-verification: Verify candidate answers against the Evidence Ledger (max 1 repair permitted).\n"
             "- answer-synthesis: Ground answers strictly in verified evidence.\n\n"
-            "Workflow:\n"
-            "1. Analyze question and call appropriate bounded retrieval action:\n"
+            "Workflow Instructions:\n"
+            "1. Analyze question constraints and call the appropriate retrieval tool:\n"
             "   - run_a2_graph_reasoning for venue/multihop queries\n"
             "   - run_a1_graph_rag for athlete/representation queries\n"
             "   - run_a0_vector_rag for direct lookups\n"
-            "2. Conclude with the grounded candidate answer."
+            "2. Read the observation returned from the retrieval tool.\n"
+            "3. Invoke verify_and_repair with the candidate answer to check factual grounding in the Evidence Ledger.\n"
+            "4. Conclude with the grounded candidate answer."
         )
         return create_deep_agent(
             model=self.model,
@@ -794,6 +833,7 @@ class AgenticGraphRAGOrchestrator:
         question: str,
         qtype: str | None = None,
         budget: ExecutionBudget | None = None,
+        allow_fallback: bool = True,
     ) -> AgenticOrchestrationResult:
         """Execute full Agentic GraphRAG reasoning loop under harness oversight."""
         t0 = time.perf_counter()
@@ -802,11 +842,14 @@ class AgenticGraphRAGOrchestrator:
         a2_tools_called: list[str] = []
 
         model_invoked = False
+        execution_mode = "deterministic_fallback"
         input_tokens = 0
         output_tokens = 0
         total_tokens = 0
+        model_call_count = 0
         model_latency_ms = 0.0
         model_answer: str | None = None
+        action_trace: list[dict[str, Any]] = []
 
         if self.deep_agent is not None:
             self._active_run_state = state
@@ -814,48 +857,65 @@ class AgenticGraphRAGOrchestrator:
             self._active_a2_tools = a2_tools_called
             t_model_start = time.perf_counter()
             try:
+                user_content = (
+                    f"Please investigate and answer this Olympic query: {question}\n"
+                    "1. Call the appropriate retrieval tool (run_a0_vector_rag, run_a1_graph_rag, or run_a2_graph_reasoning).\n"
+                    "2. Read the observation returned.\n"
+                    "3. Call verify_and_repair to verify the candidate answer against the Evidence Ledger.\n"
+                    "4. State the final grounded answer."
+                )
+                action_trace.append({"role": "user", "content": user_content})
                 res = self.deep_agent.invoke(
                     {
                         "messages": [
                             {
                                 "role": "user",
-                                "content": (
-                                    "Please investigate and answer this "
-                                    f"Olympic query: {question}\n"
-                                    "1. Use investigate_and_retrieve with the "
-                                    "appropriate strategy.\n"
-                                    "2. Use verify_and_repair to verify "
-                                    "the evidence.\n"
-                                    "3. State the final grounded answer."
-                                ),
+                                "content": user_content,
                             }
                         ]
                     }
                 )
                 model_latency_ms = (time.perf_counter() - t_model_start) * 1000.0
                 model_invoked = True
+                execution_mode = "model_driven"
 
                 messages = res.get("messages", []) if isinstance(res, dict) else []
                 for m in messages:
+                    m_type = getattr(m, "type", type(m).__name__)
                     um = getattr(m, "usage_metadata", None)
                     if um:
                         input_tokens += um.get("input_tokens", 0)
                         output_tokens += um.get("output_tokens", 0)
                         total_tokens += um.get("total_tokens", 0)
-                    if getattr(m, "type", None) == "ai" and getattr(
-                        m, "content", None
-                    ):
-                        if isinstance(m.content, str):
-                            model_answer = m.content
-                        elif isinstance(m.content, list):
+
+                    if m_type == "ai" or isinstance(m, AIMessage):
+                        model_call_count += 1
+                        tool_calls = getattr(m, "tool_calls", None) or []
+                        content = getattr(m, "content", "")
+                        if isinstance(content, list):
                             text_parts = [
                                 p.get("text", "")
-                                for p in m.content
+                                for p in content
                                 if isinstance(p, dict) and "text" in p
                             ]
                             if text_parts:
-                                model_answer = " ".join(text_parts)
+                                content = " ".join(text_parts)
+                        action_trace.append({
+                            "role": "model",
+                            "content": content if isinstance(content, str) else "",
+                            "tool_calls": tool_calls,
+                        })
+                        if content and isinstance(content, str):
+                            model_answer = content
+                    elif m_type == "tool" or getattr(m, "name", None):
+                        action_trace.append({
+                            "role": "tool",
+                            "name": getattr(m, "name", "unknown_tool"),
+                            "observation": getattr(m, "content", ""),
+                        })
             except Exception as e:
+                if not allow_fallback:
+                    raise
                 logger.warning(
                     f"DeepAgents model invocation encountered an error: {e}. "
                     "Executing deterministic harness fallback."
@@ -863,6 +923,7 @@ class AgenticGraphRAGOrchestrator:
                 HarnessReducer.apply_event(
                     state, "MODEL_FALLBACK", {"error": str(e)}
                 )
+                execution_mode = "deterministic_fallback"
             finally:
                 self._active_run_state = None
                 self._active_mcp_tools = None
@@ -870,6 +931,11 @@ class AgenticGraphRAGOrchestrator:
 
         # Fallback / deterministic guarantee if model didn't execute retrieval
         if state.phase == ExecutionPhase.INITIALIZED:
+            if not allow_fallback:
+                raise RuntimeError(
+                    f"Model-driven execution for '{question}' did not execute any retrieval action and allow_fallback is False."
+                )
+            execution_mode = "deterministic_fallback"
             # 1. Skill 1: Question Analysis
             analysis = self._execute_question_analysis_skill(question, state)
 
@@ -955,7 +1021,7 @@ class AgenticGraphRAGOrchestrator:
         # 4. Skill 4: Evidence Verification & Bounded Repair (ensure it runs)
         repair_used = state.repair_count > 0
         unique_ranked = state.ranked_doc_ids
-        cand_ans = state.candidate_answer or ""
+        cand_ans = state.candidate_answer or model_answer or ""
         if "evidence-verification" not in state.skills_invoked:
             verification, repair_used, unique_ranked = (
                 self._execute_evidence_verification_skill(
@@ -994,9 +1060,13 @@ class AgenticGraphRAGOrchestrator:
             evidence_items=state.ledger.get_all(),
             skills_invoked=list(state.skills_invoked),
             model_name=self.model_name if model_invoked else None,
+            model_provider=self.model_provider if model_invoked else None,
+            model_call_count=model_call_count,
+            execution_mode=execution_mode,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             total_tokens=total_tokens,
             model_latency_ms=model_latency_ms,
             model_answer=model_answer,
+            action_trace=action_trace,
         )

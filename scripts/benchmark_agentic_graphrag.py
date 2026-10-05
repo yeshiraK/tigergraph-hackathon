@@ -51,7 +51,7 @@ def load_baseline(path: Path) -> dict[str, Any] | None:
 
 
 def main() -> None:
-    repo_root = Path("/Users/yeshi/Desktop/tgh")
+    repo_root = Path(__file__).resolve().parent.parent
     public_file = repo_root / "data" / "benchmarks" / "eval_public.jsonl"
     a0_file = (
         repo_root / "experiments" / "runs" / "tigergraph_nomic_public_benchmark.json"

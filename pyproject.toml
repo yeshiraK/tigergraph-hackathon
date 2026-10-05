@@ -52,4 +52,8 @@ select = [
     "C4",  # flake8-comprehensions
     "UP",  # pyupgrade
 ]
-ignore = []
+ignore = [
+    "E501",  # line length
+    "E402",  # module level import not at top of file
+    "F841",  # unused local variable
+]

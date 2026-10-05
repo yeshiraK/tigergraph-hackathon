@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    repo_root = Path("/Users/yeshi/Desktop/tgh")
+    repo_root = Path(__file__).resolve().parent.parent
     hidden_file = repo_root / "data" / "benchmarks" / "eval_hidden.jsonl"
     out_dir = repo_root / "experiments" / "runs"
     out_dir.mkdir(parents=True, exist_ok=True)

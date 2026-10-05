@@ -17,7 +17,8 @@ from tgh.ingestion.chunker import SemanticChunker
 
 
 def load_env() -> dict[str, str]:
-    env_file = Path("/Users/yeshi/Desktop/tgh/.env")
+    repo_root = Path(__file__).resolve().parent.parent
+    env_file = repo_root / ".env"
     res = {}
     if env_file.is_file():
         with env_file.open("r", encoding="utf-8") as f:
@@ -42,7 +43,7 @@ def get_tigergraph_connection() -> tg.TigerGraphConnection:
 
 
 def main():
-    repo_root = Path("/Users/yeshi/Desktop/tgh")
+    repo_root = Path(__file__).resolve().parent.parent
     corpus_file = repo_root / "data" / "raw" / "corpus.jsonl"
     npz_file = repo_root / "experiments" / "runs" / "nomic_corpus_embeddings.npz"
     meta_file = repo_root / "experiments" / "runs" / "nomic_corpus_embeddings_meta.json"

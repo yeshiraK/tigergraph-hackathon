@@ -11,7 +11,8 @@ from tgh.retrieval.graphrag import GraphRAGRetriever
 
 
 def load_env() -> dict[str, str]:
-    env_file = Path("/Users/yeshi/Desktop/tgh/.env")
+    repo_root = Path(__file__).resolve().parent.parent
+    env_file = repo_root / ".env"
     res = {}
     if env_file.is_file():
         with env_file.open("r", encoding="utf-8") as f:
@@ -56,7 +57,7 @@ def main():
         config=config,
     )
 
-    repo_root = Path("/Users/yeshi/Desktop/tgh")
+    repo_root = Path(__file__).resolve().parent.parent
     public_file = repo_root / "data" / "benchmarks" / "eval_public.jsonl"
 
     selected_qids = ["pub-005", "pub-011", "pub-009", "pub-002"]

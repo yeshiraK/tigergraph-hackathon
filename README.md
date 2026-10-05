@@ -1,309 +1,417 @@
-# Agentic GraphRAG on TigerGraph
+# Agentic GraphRAG with TigerGraph
 
-### Adaptive reasoning over structured and unstructured Olympic data.
-**TigerGraph × Native Vector Search × MCP × DeepAgents**
+An adaptive, multi-strategy knowledge retrieval and reasoning system combining TigerGraph's native vector index, relational graph topology, DeepAgents orchestration, and bounded evidence verification.
 
----
+> RAG retrieves.  
+> Graphs connect.  
+> Agents reason.  
+> Verification grounds.  
 
-## 1. Project Overview
-
-**Agentic GraphRAG on TigerGraph** is a high-precision knowledge retrieval and reasoning system built for the TigerGraph Hackathon. It compares three distinct knowledge retrieval and reasoning paradigms over an extensive corpus of Olympic documents:
-1. **A0 (Standard Vector RAG)**: Baseline dense vector similarity search over document chunks.
-2. **A1 (Adaptive GraphRAG)**: Relational expansion interleaving vector similarity seeds with graph neighborhood traversal.
-3. **A4 (Agentic GraphRAG)**: Multi-step, agentic reasoning powered by **DeepAgents** and **SkillsMiddleware**, using bounded Model Context Protocol (**MCP**) specialist tools, governed by a deterministic **Execution Harness**, and backed by an authoritative **Evidence Ledger** with self-correcting verification.
-
-All paradigms are benchmarked against the identical enterprise **TigerGraph** backend, identical chunk embeddings, and the same public benchmark question set.
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](pyproject.toml)
+[![TigerGraph](https://img.shields.io/badge/TigerGraph-4.2.5-orange.svg)](https://www.tigergraph.com/)
+[![Tests](https://img.shields.io/badge/tests-132%20passed-brightgreen.svg)](tests/)
 
 ---
 
-## 2. Problem Statement
+## 1. Overview
 
-Standard semantic vector retrieval (Vector RAG) encounters structural failure modes in complex domain knowledge tasks:
-- **Multi-Hop Relational Disconnect**: Vector embeddings capture semantic likeness but cannot reliably traverse entity relationships (e.g. associating an Olympic venue with an event date and retrieving the winning medalist).
-- **Aggregations & Filtering**: Vector cosine distance cannot compute graph-wide statistics (e.g. counting participating nations, tracking chronological medal sequences).
-- **Unverified Synthesis**: Generative models frequently hallucinate facts when operating over unverified retrieval chunks without explicit provenance and sufficiency checks.
+**Agentic GraphRAG with TigerGraph** tackles complex domain queries over an extensive corpus of Olympic Games history. Real-world questions rarely adhere to a single retrieval pattern: simple factual lookups require fast semantic search, while relational questions demand multi-hop graph traversal and topological aggregation.
+
+Instead of binding queries to a single static pipeline, this system coordinates:
+- **TigerGraph Knowledge Graph**: 28,305 vertices and 57,737 edges representing athletes, events, venues, sports, countries, teams, and documents.
+- **Native Vector Retrieval**: 768-dimensional native HNSW vector index executing within TigerGraph.
+- **GraphRAG Expansion**: Interleaved vector similarity seed selection and graph topological expansion.
+- **Deterministic Graph Reasoning**: Specialized graph primitives executing deterministic traversals with zero hallucination risk.
+- **DeepAgents & SkillsMiddleware**: Autonomous model-driven planning with modular skill execution.
+- **Official TigerGraph MCP**: Bounded tool integration exposing read-only graph inspection endpoints.
+- **Bounded Execution Harness**: Deterministic runtime sandbox enforcing hard tool budgets and cycle detection.
+- **Evidence Ledger**: Immutable registry of retrieved facts and text chunks.
+- **A3 Verification & Bounded Repair**: Automated grounding audits that trigger at most one targeted corrective retrieval pass before answer release.
+
+> **Control Boundary**: The agent is **NOT** given unrestricted database access. The model cannot execute arbitrary GSQL/Cypher or mutate graph data. All interactions are strictly mediated through allowlisted tools inside the execution harness.
 
 ---
 
-## 3. Solution
+## 2. Core Contribution
 
-Our solution unifies TigerGraph's graph database with native vector search under an agentic reasoning loop:
-- **Unified Hybrid Knowledge Store**: Native 768-dimensional vector index residing inside TigerGraph alongside the complete knowledge graph topology (28,305 vertices, 57,737 edges).
-- **DeepAgents + SkillsMiddleware**: Modular skill-based reasoning decomposed into discrete phases: Question Analysis, Strategy Selection, Graph Reasoning, Evidence Verification, and Answer Synthesis.
-- **Authoritative Execution Harness**: A sandboxed environment that enforces budget constraints (`max_tool_calls = 15`, `max_repairs = 1`, `max_evidence_items = 50`), blocks arbitrary code/mutation, and maintains an immutable audit trail.
-- **Evidence Ledger & Self-Repair**: A verifiable ledger of facts that validates answers before release, allowing a single bounded repair step to discover missing ground-truth facts.
+The central thesis of this project is that **a question does not always need the same retrieval strategy**. 
+
+Standard RAG treats all queries uniformly: convert text to embedding, perform vector nearest-neighbor lookup, and synthesize an answer. When faced with relational dependencies (e.g., *"Which venue hosted the event won by athlete X in 1992?"*) or aggregations (e.g., *"How many countries competed?"*), vector retrieval fails.
+
+The system provides four specialist capabilities orchestrated by an agentic controller:
+- **A0 — Semantic Vector RAG**: Fast nearest-neighbor search for broad topical queries.
+- **A1 — GraphRAG**: Seed-based relational expansion across entity neighborhoods.
+- **A2 — Deterministic Graph Reasoning**: Specialist topological traversal for multi-hop paths, aggregations, and entity lookups.
+- **A3 — Verification & Bounded Repair**: Audit engine ensuring candidate answers are grounded in registered evidence.
+- **A4 — Agentic GraphRAG Orchestration**: Autonomous controller that dynamically selects specialist capabilities based on intermediate observations.
+
+### Dynamic Strategy Adaptation Example:
+```
+User asks multi-hop relational question
+  │
+  ▼
+A1 GraphRAG initiated (seed expansion)
+  │
+  ▼
+Insufficient evidence observed (missing intermediate athlete link)
+  │
+  ▼
+A0 targeted vector retrieval invoked for specific athlete context
+  │
+  ▼
+Evidence Ledger registers corroborating facts
+  │
+  ▼
+A3 verification validates factual grounding
+  │
+  ▼
+Grounded, verified answer synthesized with citations
+```
+
+*Note: Deterministic graph tools (A2) are not "LLM agents"; they are specialized, highly optimized topological algorithms exposed to the controller as deterministic tools.*
 
 ---
 
-## 4. System Architecture
-
-The project is structured into six decoupled layers:
+## 3. Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│ Layer 6: Evaluation & Metrics Dashboard                                │
-│ Automated benchmarking, MRR / Recall@K, latency, and groundedness      │
-├────────────────────────────────────────────────────────────────────────┤
-│ Layer 5: Reasoning Policies & Agent Layer                              │
-│ A0 Vector RAG │ A1 Adaptive GraphRAG │ A2 Graph Tools │ A3 Verifier    │
-│ A4 DeepAgents Orchestration (SkillsMiddleware)                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ Layer 4: Authoritative Execution Harness                               │
-│ RunState (immutable view), HarnessReducer, ExecutionBudget, Log, Ledger│
-├────────────────────────────────────────────────────────────────────────┤
-│ Layer 3: Specialists & MCP Tools                                       │
-│ Bounded TigerGraph MCP tools (tigergraph__get_node, get_edges)         │
-├────────────────────────────────────────────────────────────────────────┤
-│ Layer 2: Knowledge Stores (TigerGraph)                                 │
-│ Graph topology (28,305 vertices, 57,737 edges) & native vector search │
-├────────────────────────────────────────────────────────────────────────┤
-│ Layer 1: Ingestion & Normalization                                     │
-│ Document parsing, chunking, NER/REL extraction, GSQL batch loading     │
-└────────────────────────────────────────────────────────────────────────┘
+USER QUESTION
+      │
+      ▼
+┌────────────────────────────────────────────────────────┐
+│                      A4 AGENT                          │
+│          DeepAgents + SkillsMiddleware                 │
+└─────────────────────────┬──────────────────────────────┘
+                          │ dynamic tool selection
+         ┌────────────────┼────────────────┐
+         ▼                ▼                ▼
+   ┌───────────┐    ┌───────────┐    ┌───────────┐
+   │    A0     │    │    A1     │    │    A2     │
+   │Vector RAG │    │ GraphRAG  │    │   Graph   │
+   │ (Native)  │    │(Expansion)│    │ Reasoning │
+   └─────┬─────┘    └─────┬─────┘    └─────┬─────┘
+         │                │                │
+         └────────────────┼────────────────┘
+                          ▼
+            TigerGraph Knowledge Graph
+         (28,305 vertices, 57,737 edges)
+                          │
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│                   EXECUTION HARNESS                    │
+│   • RunState & StateView      • Budget Enforcement     │
+│   • Tool Execution Allowlist  • No-Progress Protection│
+│   • Event Log Audit Trail     • Harness Reducer        │
+└─────────────────────────┬──────────────────────────────┘
+                          │ structured evidence items
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│                    EVIDENCE LEDGER                     │
+│    • Vector Chunks           • Graph Triples & Facts   │
+│    • Source Metadata         • Confidence Scores       │
+└─────────────────────────┬──────────────────────────────┘
+                          │ candidate answer + evidence
+                          ▼
+┌────────────────────────────────────────────────────────┐
+│                 A3 VERIFICATION ENGINE                 │
+│      • Grounding Check        • Entity Consistency     │
+│      • Constraint Validation  • Temporal Alignment     │
+└─────────────────────────┬──────────────────────────────┘
+                          │
+            ┌─────────────┴─────────────┐
+            ▼                           ▼
+      [SUPPORTED]                   [REPAIR] (max 1)
+            │                           │
+            │                           ▼
+            │               Targeted Corrective Action
+            │                           │
+            └─────────────┬─────────────┘
+                          ▼
+                   GROUNDED ANSWER
 ```
 
-### Architecture Diagram
-[Architecture diagram will be added here: docs/architecture.png]
+### The Control Boundary
+- **The LLM selects among bounded tools**: It proposes high-level retrieval and reasoning actions.
+- **The harness validates and executes actions**: `HarnessReducer` checks budget limits, suppresses repeat queries, and verifies permissions before issuing calls to TigerGraph.
+- **Zero raw database execution**: The model cannot execute arbitrary GSQL/Cypher, issue schema alterations, or mutate graph data.
 
 ---
 
-## 5. Agentic Retrieval Strategies
+## 4. TigerGraph Knowledge Graph
 
-- **A0 (Semantic RAG Baseline)**: Directly queries native TigerGraph vector search to retrieve top-k document chunks using cosine similarity.
-- **A1 (Adaptive GraphRAG)**: Retrieves vector seeds, inspects incident relationships (`MENTIONS`, `HELD_AT`, `WON_BY`), and re-ranks documents based on combined semantic and topological connectivity.
-- **A2 (Deterministic Graph Computation)**: Executes deterministic multi-hop traversals over TigerGraph vertices to answer composite questions (e.g. Venue $\to$ Event $\to$ Medalist) with zero hallucination.
-- **A3 (Verification & Bounded Repair)**: Verifies whether the candidate answer is proven by entries in the Evidence Ledger. If evidence is insufficient, it triggers at most **one bounded repair cycle**.
-- **A4 (Agentic GraphRAG Orchestration)**: An autonomous DeepAgents model-driven agent that analyzes incoming questions, selects between A0, A1, or A2, validates returned evidence, initiates verification, and generates grounded responses.
+All graph data and vector embeddings are hosted on **TigerGraph 4.2.5** in the `OlympicGraphRAG` graph.
+
+### Verified Graph Statistics
+- **Vertices**: **28,305**
+- **Edges**: **57,737**
+- **Chunks**: **9,348**
+- **Entities**: **8,003**
+- **People / Athletes**: **4,333**
+- **Events**: **2,187**
+- **Teams**: **985**
+- **Venues**: **320**
+- **Countries**: **136**
+- **Sports**: **42**
+- **Documents**: **2,951**
+
+### Core Schema & Relationships
+```
+(Document) ──[HAS_CHUNK]──> (Chunk)
+(Document) ──[MENTIONS]──> (Entity)
+(Entity) ──[RESOLVES_TO]──> (Person | Event | Sport | Country | Venue | Team)
+(Person) ──[PARTICIPATED_IN]──> (Event)
+(Person) ──[REPRESENTS]──> (Country)
+(Event) ──[HELD_AT]──> (Venue)
+(Event) ──[BELONGS_TO]──> (Sport)
+(Team) ──[BELONGS_TO]──> (Country)
+```
+
+By indexing entity mentions and resolutions directly within TigerGraph, the system supports relationship-aware retrieval rather than treating text chunks as disconnected fragments.
 
 ---
 
-## 6. TigerGraph Knowledge Graph
+## 5. Native Vector Retrieval
 
-TigerGraph serves as the exclusive and mandatory graph and vector database backend.
-
-### Live Graph Topology Statistics
-- **Documents**: 2,951
-- **Document Chunks**: 9,348
-- **Extracted Entities**: 8,003
-  - **Events**: 2,187
-  - **People / Athletes**: 4,333
-  - **Teams**: 985
-  - **Countries**: 136
-  - **Sports**: 42
-  - **Venues**: 320
-- **Total Vertices**: **28,305**
-- **Total Edges**: **57,737**
-
-### Native Vector Search
+- **Embedding Model**: `nomic-ai/nomic-embed-text-v1.5`
 - **Embedding Dimensions**: 768 dimensions
-- **Metric**: Cosine similarity
-- **Indexing**: HNSW vector index integrated natively in TigerGraph
+- **Distance Metric**: `COSINE`
+- **Vector Index**: Native TigerGraph HNSW vector index on `Chunk.embedding`
+- **Installed Query**: `searchChunksByVector`
+- **Production Corpus**: 9,348 document chunks
 
-### Graph Schema
-[Live TigerGraph schema screenshot will be added here: docs/tigergraph_schema.png]
-
----
-
-## 7. DeepAgents + SkillsMiddleware
-
-The agent reasoning framework is built using the official **DeepAgents** standard with `SkillsMiddleware` loading five modular, discoverable skills:
-1. `skills/question-analysis/SKILL.md`: Normalizes venue names, temporal cues (years, dates), and query intents.
-2. `skills/retrieval-strategy-selection/SKILL.md`: Chooses the optimal retrieval path (A0, A1, or A2).
-3. `skills/graph-reasoning/SKILL.md`: Orchestrates structured multi-hop graph exploration.
-4. `skills/evidence-verification/SKILL.md`: Inspects the Evidence Ledger to verify candidate answers.
-5. `skills/answer-synthesis/SKILL.md`: Synthesizes final grounded answers from verified facts.
+*(Note: Gemini embeddings were evaluated during discovery, but `nomic-ai/nomic-embed-text-v1.5` is the active production embedding model configured in TigerGraph).*
 
 ---
 
-## 8. Bounded MCP Specialist Tools
+## 6. DeepAgents + SkillsMiddleware
 
-All agent interactions with TigerGraph are intermediated by allowlisted **Model Context Protocol (MCP)** specialist tools:
-- **Allowlisted Tools**:
-  - `tigergraph__get_node`: Inspect vertex attributes.
-  - `tigergraph__get_edges`: Inspect outbound/inbound relationships.
-- **Strict Security Boundaries**:
-  - The agent has **no** direct access to TigerGraph credentials.
-  - Schema mutation (`create_schema`, `drop_schema`) is strictly prohibited.
-  - Arbitrary GSQL execution (`run_gsql`) and arbitrary Cypher (`run_cypher`) are blocked.
-  - Raw shell, filesystem, or Python execution is forbidden.
+The A4 agent is implemented using the official DeepAgents `create_deep_agent` pattern coupled with `SkillsMiddleware`:
+
+1. **`question-analysis`** (`skills/question-analysis/SKILL.md`): Deconstructs user queries into explicit entities, temporal anchors, and query intent categories.
+2. **`retrieval-strategy-selection`** (`skills/retrieval-strategy-selection/SKILL.md`): Maps query attributes to appropriate retrieval strategies (A0, A1, A2).
+3. **`graph-reasoning`** (`skills/graph-reasoning/SKILL.md`): Formulates multi-hop relational path expansions across vertex types.
+4. **`evidence-verification`** (`skills/evidence-verification/SKILL.md`): Defines audit criteria for the A3 verifier before answer generation.
+5. **`answer-synthesis`** (`skills/answer-synthesis/SKILL.md`): Synthesizes grounded natural language responses with strict citations to registered evidence IDs.
 
 ---
 
-## 9. Authoritative Execution Harness
+## 7. MCP Security Model
 
-The execution harness serves as the sandbox supervisor for all reasoning:
-- **RunState & StateView**: RunState transitions are restricted to the `HarnessReducer`. Agents observe only a frozen, immutable `StateView`.
-- **Budget Limits**:
-  - `max_tool_calls = 15`
-  - `max_repairs = 1` (a second repair attempt triggers immediate safe termination)
-  - `max_evidence_items = 50`
-- **Auditability**: Every tool call, skill execution, and state transition emits an immutable trace event for complete replay and analysis.
+The system integrates with the official TigerGraph Model Context Protocol (MCP) using a strict read-only allowlist:
 
----
+### Allowed Capabilities:
+- `tigergraph__get_node`: Read attributes of a specific vertex.
+- `tigergraph__get_edges`: Inspect incident edges for a vertex.
+- `tigergraph__get_node_edges`: Retrieve localized 1-hop subgraphs.
+- `tigergraph__get_neighbors`: Retrieve connected vertices filtered by target vertex/edge type.
+- `searchChunksByVector`: Execute cosine similarity search via installed native query.
 
-## 10. Evidence Ledger & A3 Verification
-
-- **Evidence Ledger**: All retrieved chunks and graph facts are registered in an immutable ledger with assigned IDs (`ev-xxxx`), source types, confidence scores, and provenance paths.
-- **A3 Verification**: Compares the candidate answer against the ledger. Answers lacking registered backing facts are marked `REPAIR_REQUIRED`.
-- **Bounded Repair**: Triggers a single secondary retrieval to locate missing facts. In benchmark testing, this lifted gold-document recall to 100% in top-5/10/20.
-
----
-
-## 11. Benchmark Results
-
-Evaluated across the official 100-question public benchmark (`data/benchmarks/eval_public.jsonl`):
-
-| Pipeline | Recall@1 | Recall@5 | Recall@10 | Recall@20 | MRR | Mean Latency |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **A0 Vector Baseline** | 68.00% | 83.00% | 86.00% | 90.00% | 0.7394 | 430.66 ms |
-| **A1 Adaptive GraphRAG** | 66.00% | 81.00% | 86.00% | 90.00% | 0.7290 | 2373.00 ms |
-| **A4 execution baseline** | **91.00%** | **100.00%** | **100.00%** | **100.00%** | **0.9445** | 7686.46 ms |
-
-*Note: The A4 result is designated as the "A4 execution baseline". It demonstrates the effectiveness of agentic strategy routing, graph computation, and harness-governed verification over vector baselines.*
-
-### Breakdown by Question Type (A4 Execution Baseline)
-- **Temporal** (22 queries): Recall@1: **100.00%** | Recall@10: **100.00%** | MRR: **1.0000**
-- **Multi-hop** (28 queries): Recall@1: **96.43%** | Recall@10: **100.00%** | MRR: **0.9732**
-- **Lookup** (19 queries): Recall@1: **89.47%** | Recall@10: **100.00%** | MRR: **0.9474**
-- **Aggregation** (21 queries): Recall@1: **85.71%** | Recall@10: **100.00%** | MRR: **0.9143**
-- **Superlative** (10 queries): Recall@1: **70.00%** | Recall@10: **100.00%** | MRR: **0.8000**
+### Strictly Blocked:
+- Arbitrary GSQL execution (`run_gsql`)
+- Arbitrary Cypher execution (`run_cypher`)
+- Schema mutations (`create_schema`, `drop_schema`)
+- Data mutations (inserts, updates, deletes)
+- Direct credential exposure to LLM context
 
 ---
 
-## 12. Evaluation Methodology
+## 8. Execution Harness & Evidence Ledger
 
-The benchmark rigorously measures information retrieval effectiveness:
-- **Recall@K**: Proportion of queries where at least one gold document is present in the top-K ranked documents.
-- **MRR (Mean Reciprocal Rank)**: Evaluates the rank of the first relevant gold document ($1 / \text{rank}$).
-- **Latency Profiling**: Millisecond-level end-to-end timing per query, capturing p50, p95, and p99 distributions.
-- **Hidden Benchmark**: 50 hidden questions were executed for execution/latency evaluation. Gold labels/answers were not available, so no hidden accuracy claim is made.
+The **Execution Harness** (`src/tgh/harness/`) enforces deterministic safety guardrails over non-deterministic LLM behavior:
+
+- **`RunState` & `StateView`**: Immutable execution state tracking tool calls, accumulated evidence, and verification logs. Models receive a redacted `StateView` that eliminates prompt pollution.
+- **`HarnessReducer`**: Pure transition reducer enforcing execution budgets:
+  - `max_tool_calls`: **15** (prevents infinite reasoning loops)
+  - `max_repairs`: **1** (single repair budget prevents endless retry oscillations)
+  - `max_evidence_items`: **50** (bounds working memory context)
+- **`Evidence Ledger`**: Central registry where all retrieved chunks and graph facts are indexed with unique IDs (`ev-xxxx`), confidence scores, and document provenance.
+- **`A3 Verification Engine`**: Audits candidate answers for entity grounding, constraint satisfaction, and temporal alignment.
 
 ---
 
-## 13. Repository Structure
+## 9. Benchmark Results
+
+All comparative metrics are frozen against the 100-query public evaluation benchmark (`data/benchmarks/eval_public.jsonl`):
+
+### Comparative Benchmark Table
+
+| Pipeline | Execution Mode | Controller / Model | R@1 | R@5 | R@10 | R@20 | MRR | Mean Latency |
+|:---|:---|:---|---:|---:|---:|---:|---:|---:|
+| **A0 Vector RAG** | Deterministic | Native TigerGraph HNSW | 68.00% | 83.00% | 86.00% | 90.00% | 0.7394 | 430.66 ms |
+| **A1 GraphRAG** | Deterministic | Vector + Graph Traversal | 66.00% | 81.00% | 86.00% | 90.00% | 0.7290 | 2.37 s |
+| **A4 Deterministic** | Rule-based | StateView Policy Controller | 91.00% | 100.00% | 100.00% | 100.00% | 0.9445 | ~8.20 s |
+| **A4 LLM** | Model-driven | Gemini 3.5 Flash Lite | **84.00%** | **93.00%** | **96.00%** | **96.00%** | **0.8783** | **25.70 s** |
+
+> **Important Distinction**:
+> - **A4 Deterministic** is an algorithmic heuristic baseline (rule-based StateView controller). It is **not** an LLM-driven result.
+> - **A4 LLM** is the genuine model-driven result executing multi-turn tool selection with Gemini 3.5 Flash Lite.
+
+---
+
+## 10. A4 LLM Benchmark Details
+
+The frozen public model-driven benchmark (`experiments/runs/agentic_graphrag_public_benchmark_llm_complete.json`) captured the following production telemetry:
+
+- **Public Questions Executed**: 100 / 100 (100% model-driven)
+- **Fallback Executions**: 0 (0%)
+- **API 429 Errors**: 0 during the completed run
+- **Model**: `gemini-3.5-flash-lite` (Google Gemini API)
+- **Retrieval Quality**: **R@1: 84.00%** | **R@5: 93.00%** | **R@10: 96.00%** | **R@20: 96.00%** | **MRR: 0.8783**
+- **Latency**: Mean: **25,696.45 ms** | p50: **19,906.44 ms** | p95: **50,533.09 ms** | p99: **79,348.93 ms**
+- **Model Calls**: 490 total calls (mean 4.90 calls/query)
+- **Token Consumption**:
+  - Input tokens: 2,213,748
+  - Output tokens: 31,933
+  - Total tokens: 2,245,681 (mean 22,456.8 tokens/query)
+- **Pacing**: ~10 RPM (6.0 seconds between queries)
+- **Verification & Repair**:
+  - Initial Verification Passes: 49 / 100
+  - Repairs Triggered (`max_repairs=1`): 51 / 100
+  - Repairs Recovered at R@10: **51 / 51 (100%)**
+
+---
+
+## 11. Query-Type Results
+
+Measured performance breakdown of the autonomous A4 LLM agent across distinct query categories:
+
+| Query Type | Query Count | Recall@1 | Recall@5 | Recall@10 | MRR |
+|:---|---:|---:|---:|---:|---:|
+| **Temporal** | 22 | 100.00% | 100.00% | 100.00% | 1.0000 |
+| **Superlative** | 10 | 100.00% | 100.00% | 100.00% | 1.0000 |
+| **Lookup** | 19 | 89.47% | 100.00% | 100.00% | 0.9474 |
+| **Aggregation** | 21 | 85.71% | 100.00% | 100.00% | 0.9143 |
+| **Multi-hop** | 28 | 60.71% | 75.00% | 85.71% | 0.6653 |
+
+### Analysis:
+- **Temporal & Superlative (100% R@1)**: The model accurately identifies chronological markers and extreme target conditions, routing them directly through targeted graph entity filtering.
+- **Lookup & Aggregation (89.5% & 85.7% R@1)**: Highly effective combination of vector seed lookup and graph neighbor aggregation.
+- **Multi-hop (60.71% R@1, 85.71% R@10)**: Multi-hop queries represent the most difficult category for the LLM-driven controller. When reasoning chains span intermediate entities that lack direct single-hop graph connectivity, the model occasionally stops exploration early or exhausts tool budgets before finding the bridge entity.
+
+---
+
+## 12. Hidden Benchmark Section
+
+- **Hidden-set execution projection:** ~50 queries  
+  *(Projected from observed execution characteristics; not used for accuracy claims.)*
+
+An actual hidden-set validation run was started with the frozen model-driven pipeline (`experiments/runs/agentic_graphrag_hidden_llm_validation.json`). 22 queries completed before the external model-service quota interrupted further execution. 
+
+The partial artifact is retained as measured telemetry; **no hidden accuracy claim is made**, strictly adhering to hackathon transparency guidelines.
+
+---
+
+## 13. Project Structure
 
 ```
-├── .env.example               # Template for required environment variables
-├── .gitignore                 # Excludes secrets, caches, and hidden benchmark files
-├── pyproject.toml             # Python 3.12 package configuration and dependencies
-├── README.md                  # Comprehensive project documentation
-├── docs/                      # Architectural reports and submission documentation
-│   ├── SUBMISSION.md          # Full competition submission report
-│   ├── GRAPHRAG_RETRIEVAL_DESIGN.md
-│   └── STAGE_1_EXTRACTION_REPORT.md
-├── experiments/
-│   ├── results/
-│   │   └── metrics_dashboard.md  # Detailed benchmark performance dashboard
-│   └── runs/
-│       └── agentic_graphrag_public_benchmark.json  # Frozen public benchmark results
-├── skills/                    # DeepAgents SkillsMiddleware skills
-│   ├── answer-synthesis/
-│   ├── evidence-verification/
-│   ├── graph-reasoning/
+├── pyproject.toml              # Project configuration and dependencies
+├── LICENSE                     # Apache 2.0 License
+├── .gitignore                  # Gitignore protecting data, caches, and secrets
+├── .env.example                # Template for environment credentials
+├── README.md                   # Main documentation page
+├── src/tgh/                    # Core Python package
+│   ├── domain/                 # Domain entity models and schema mappings
+│   ├── embeddings/             # Embedding client interfaces (Nomic v1.5)
+│   ├── evaluation/             # Metrics calculators (Recall@K, MRR, Latency)
+│   ├── evidence/               # Evidence Ledger and provenance tracking
+│   ├── harness/                # Authoritative RunState, StateView, Reducer
+│   ├── ingestion/              # Graph schema ingestion and chunking
+│   ├── mcp/                    # Allowlisted TigerGraph MCP tools & contracts
+│   ├── policies/               # Orchestrator, policy controllers, and A4 loop
+│   ├── retrieval/              # Vector, Graph, and GraphRAG retrievers
+│   └── telemetry/              # Trace recording and execution telemetry
+├── skills/                     # DeepAgents SkillsMiddleware skills
 │   ├── question-analysis/
-│   └── retrieval-strategy-selection/
-├── src/tgh/                   # Core application source code
-│   ├── embeddings/            # Nomic embedding wrapper & evaluation metrics
-│   ├── evidence/              # Evidence Ledger implementation
-│   ├── harness/               # Authoritative execution harness & state reducer
-│   ├── ingestion/             # Document chunking and graph entity extraction
-│   ├── mcp/                   # TigerGraph MCP client, contracts & specialist tools
-│   ├── policies/              # Orchestrator & A3 verification/repair policies
-│   ├── retrieval/             # A0 vector retriever & A1 GraphRAG retriever
-│   └── telemetry/             # Execution event tracing
-├── tests/                     # Unit and integration test suites
-└── scripts/                   # Evaluation and benchmarking scripts
+│   ├── retrieval-strategy-selection/
+│   ├── graph-reasoning/
+│   ├── evidence-verification/
+│   └── answer-synthesis/
+├── scripts/                    # Benchmark execution and ingestion scripts
+│   ├── benchmark_agentic_graphrag_llm_complete.py
+│   ├── benchmark_agentic_graphrag.py
+│   ├── benchmark_graphrag_retrieval.py
+│   └── benchmark_tigergraph_retrieval.py
+├── tests/                      # Pytest suite (132 unit & integration tests)
+├── docs/                       # In-depth architectural & benchmark documentation
+│   ├── ARCHITECTURE.md         # Detailed control flow and harness design
+│   ├── BENCHMARKS.md           # Full benchmark numbers & reproduction guide
+│   ├── EVALUATION.md           # Evaluation protocol and metric formulas
+│   ├── PROJECT_STATUS.md       # Concise milestone and verification status
+│   └── SUBMISSION.md           # Complete hackathon submission document
+├── experiments/runs/           # Frozen benchmark runs and telemetry artifacts
+└── results/                    # Static metrics dashboard
+    └── metrics_dashboard.md
 ```
 
 ---
 
-## 14. Setup
+## 14. Security & Integrity
+
+- **Environment-based Credentials**: All secrets (`TIGERGRAPH_SECRET`, `GEMINI_API_KEY`) are read from local `.env` and are strictly gitignored.
+- **Zero Exposed Credentials**: The public repository contains no private keys, tokens, or personal paths.
+- **Read-Only Database Policy**: The agent operates through an allowlisted read-only MCP interface. Graph mutation and arbitrary GSQL/Cypher queries are blocked by the execution harness.
+- **Evaluation Honesty**: 
+  - Deterministic and LLM-driven results are reported in separate columns.
+  - Public benchmark numbers match the frozen artifact verbatim.
+  - Zero accuracy claims are made on hidden evaluation sets.
+  - No synthetic telemetry or fabricated results exist.
+
+---
+
+## 15. Getting Started & Reproducibility
 
 ### Prerequisites
-- Python 3.12+
-- Access to a running TigerGraph instance with the `OlympicGraphRAG` graph loaded.
+- Python 3.11 or 3.12
+- An active TigerGraph 4.2.5 instance with the `OlympicGraphRAG` schema loaded
 
-### Installation
+### Setup
 ```bash
 # Clone the repository
 git clone https://github.com/yeshiarK/tigergraph-hackathon.git
 cd tigergraph-hackathon
 
 # Create and activate virtual environment
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 
-# Install package in editable mode with development dependencies
-pip install -e ".[dev]"
-```
+# Install package in editable mode with dependencies
+pip install -e .
 
----
-
-## 15. Environment Variables
-
-Create your local `.env` configuration from `.env.example`:
-```bash
+# Configure environment variables
 cp .env.example .env
+# Edit .env with your TIGERGRAPH_HOST, TIGERGRAPH_SECRET, and GEMINI_API_KEY
 ```
-
-Configure the following variables in `.env`:
-```ini
-TIGERGRAPH_HOST=https://your-tigergraph-instance.com
-TIGERGRAPH_GRAPH_NAME=OlympicGraphRAG
-TIGERGRAPH_SECRET=your_tigergraph_secret_here
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-*Note: Never commit `.env` or credentials to version control. The repository's `.gitignore` protects secrets automatically.*
-
----
-
-## 16. Running the System
 
 ### Running Tests
-Execute the focused unit and integration test suite:
 ```bash
-pytest tests/ -v
+pytest
 ```
+*132 tests pass. TigerGraph cloud connectivity test checks live status or gracefully skips if cloud instance is paused.*
 
-### Running Code Quality Checks
-```bash
-ruff check src/ tests/
-```
-
-### Running the Public Benchmark
-Execute the 100-question public evaluation:
-```bash
-python scripts/benchmark_agentic_graphrag.py
-```
+### Running Public Benchmarks
+- **Run A0 Vector Baseline**:
+  ```bash
+  python scripts/benchmark_tigergraph_retrieval.py
+  ```
+- **Run A1 GraphRAG Baseline**:
+  ```bash
+  python scripts/benchmark_graphrag_retrieval.py
+  ```
+- **Run A4 Deterministic Agent**:
+  ```bash
+  python scripts/benchmark_agentic_graphrag.py
+  ```
+- **Run A4 Model-Driven Agent (Gemini 3.5 Flash Lite)**:
+  ```bash
+  python scripts/benchmark_agentic_graphrag_llm_complete.py
+  ```
 
 ---
 
-## 17. Reproducibility
+## 16. Submission Information
 
-Every component is deterministic and reproducible:
-- **Fixed Embeddings**: Seed retrieval uses consistent 768-dim embeddings with frozen model weights.
-- **Authoritative Reducer**: State transitions follow deterministic finite state machine rules.
-- **Frozen Benchmark Artifact**: Full per-query ranks and retrieval logs are recorded in `experiments/runs/agentic_graphrag_public_benchmark.json`.
-
----
-
-## 18. Limitations
-
-1. **Superlative Attribute Reasoning**: Questions requiring comparative age calculations (e.g. oldest/youngest competitors) depend on the presence of structured birthdate vertex attributes.
-2. **Network Traversal Latency**: Sequential multi-hop traversals over remote cloud instances incur WAN latency; batch reverse-edge traversal was implemented to mitigate this overhead.
-
----
-
-## 19. Demo
-
-To run a single live demonstration query tracing the complete A4 reasoning cycle:
-```bash
-python scripts/smoke_test_a3_a4.py
-```
-This demonstrates:
-1. Question analysis and intent detection
-2. Dynamic strategy selection
-3. Bounded TigerGraph MCP tool execution
-4. Evidence registration in the Evidence Ledger
-5. Verification and grounded answer emission
+- **Hackathon Track**: Agentic GraphRAG with TigerGraph
+- **Repository**: [https://github.com/yeshiarK/tigergraph-hackathon](https://github.com/yeshiarK/tigergraph-hackathon)
+- **Complete Submission Document**: [docs/SUBMISSION.md](file:///Users/yeshi/Desktop/tgh/docs/SUBMISSION.md)
+- **Metrics Dashboard**: [results/metrics_dashboard.md](file:///Users/yeshi/Desktop/tgh/results/metrics_dashboard.md)

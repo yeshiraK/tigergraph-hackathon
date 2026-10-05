@@ -25,7 +25,8 @@ from tgh.retrieval.graphrag import GraphRAGRetriever
 
 
 def load_env() -> dict[str, str]:
-    env_file = Path("/Users/yeshi/Desktop/tgh/.env")
+    repo_root = Path(__file__).resolve().parent.parent
+    env_file = repo_root / ".env"
     res = {}
     if env_file.is_file():
         with env_file.open("r", encoding="utf-8") as f:
@@ -40,7 +41,7 @@ def load_env() -> dict[str, str]:
 
 
 def main():
-    repo_root = Path("/Users/yeshi/Desktop/tgh")
+    repo_root = Path(__file__).resolve().parent.parent
     public_file = repo_root / "data" / "benchmarks" / "eval_public.jsonl"
     baseline_file = (
         repo_root / "experiments" / "runs" / "tigergraph_nomic_public_benchmark.json"

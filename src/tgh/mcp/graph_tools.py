@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import time
 import unicodedata
 import urllib.parse
 from dataclasses import dataclass
@@ -128,6 +129,40 @@ class TigerGraphTools:
                 pass
 
         return res_map
+
+    def get_node(self, vertex_type: str, vertex_id: str) -> ToolExecutionResult:
+        """Fetch a vertex by type and ID and return ToolExecutionResult."""
+        t0 = time.perf_counter()
+        v_map = self._get_vertices_by_id(vertex_type, [vertex_id])
+        node_data = v_map.get(vertex_id)
+        lat_ms = (time.perf_counter() - t0) * 1000.0
+        if node_data:
+            return ToolExecutionResult(
+                success=True,
+                data=node_data,
+                provenance=[f"{vertex_type}:{vertex_id}"],
+                latency_ms=lat_ms,
+            )
+        return ToolExecutionResult(
+            success=False,
+            data=None,
+            error=f"Vertex {vertex_type}:{vertex_id} not found",
+            latency_ms=lat_ms,
+        )
+
+    def get_edges(
+        self, source_type: str, source_id: str, edge_type: str = ""
+    ) -> ToolExecutionResult:
+        """Fetch outgoing edges from a vertex and return ToolExecutionResult."""
+        t0 = time.perf_counter()
+        edges = self._get_edges(source_type, source_id, edge_type=edge_type)
+        lat_ms = (time.perf_counter() - t0) * 1000.0
+        return ToolExecutionResult(
+            success=True,
+            data=edges,
+            provenance=[f"{source_type}:{source_id}->{edge_type or '*'}"],
+            latency_ms=lat_ms,
+        )
 
     # -------------------------------------------------------------------------
     # Primitive 1: PERSON / TEAM -> EVENTS

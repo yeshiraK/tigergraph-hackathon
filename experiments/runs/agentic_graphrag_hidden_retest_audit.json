@@ -1,0 +1,542 @@
+{
+  "benchmark_name": "OlympicGraphRAG_Hidden_Retest_Audit",
+  "dataset_integrity": {
+    "total_questions_found": 50,
+    "total_questions_matched": 50,
+    "unique_ids_confirmed": 50,
+    "original_submission_unchanged": true
+  },
+  "evaluator_comparison": {
+    "original_evaluator_reported_correct": 47,
+    "original_evaluator_reported_accuracy_pct": 94.0,
+    "independently_confirmed_correct": 45,
+    "independently_confirmed_incorrect": 4,
+    "manual_review_count": 1,
+    "verified_lower_bound_accuracy_pct": 90.0,
+    "potential_upper_bound_accuracy_pct": 92.0,
+    "target_84_pct_met_lower_bound": true,
+    "target_84_pct_met_upper_bound": true
+  },
+  "disagreements": [
+    {
+      "qid": "eval-018",
+      "question": "Who won the gold medal in the event held at Olympic Stadium on 16\u201318 August 2016?",
+      "reference_answer": "Sara Kolak (Women's javelin throw) / Usain Bolt (Men's 200 metres)",
+      "predicted_answer": "The gold medal in the event held at the Olympic Stadium from 16\u201318 August 2016 was won by **Sunette Viljoen** in the Women's javelin throw event.",
+      "original_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_INCORRECT",
+      "reason": "Factual error: Prediction asserts Sunette Viljoen won gold, but she won silver; gold was won by Sara Kolak."
+    },
+    {
+      "qid": "eval-050",
+      "question": "Who won the gold medal in the event held at Olympic Stadium on 6\u20139 August at the 2012 Summer Olympics?",
+      "reference_answer": "David Rudisha",
+      "predicted_answer": "Between 6 and 9 August 2012, several athletic events held their finals at the Olympic Stadium during the 2012 Summer Olympics. Gold medalists for events with finals held on these specific dates include:\n\n*   **6 August 2012**: \n    *   **Women's Pole Vault**: Jennifer Suhr (USA) won the gold medal.\n    *   **Men's 400 metres hurdles**: F\u00e9lix S\u00e1nchez (DOM) won the gold medal.\n*   **8 August 2012**:\n    *   **Men's 110 metres hurdles**: Aries Merritt (USA) won the gold medal.\n*   **9 August 2012**:\n    *   **Men's 800 metres**: David Rudisha (KEN) won the gold medal.",
+      "original_verdict": "CORRECT",
+      "independent_verdict": "MANUAL_REVIEW",
+      "reason": "Underspecified question with multi-event breakdown: Question asked for the event held on 6\u20139 August (Men's 800m, David Rudisha). Prediction includes David Rudisha alongside Jennifer Suhr, F\u00e9lix S\u00e1nchez, and Aries Merritt whose finals fell on individual days within that span."
+    }
+  ],
+  "per_question_audit": [
+    {
+      "qid": "eval-001",
+      "question": "Who won the gold medal in the event held at Olympic Tennis Centre on 15 to 22 August 2004?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Li Ting and Sun Tiantian",
+      "predicted_answer": "The Olympic Tennis Centre hosted several tennis events during the 2004 Summer Olympics between 15 and 22 August 2004. The gold medalists for these events were:\n\n*   **Men's Singles:** Nicol\u00e1s Mass\u00fa (Chile)\n*   **Women's Singles:** Justine Henin (Belgium)\n*   **Women's Doubles:** Li Ting and Sun Tiantian (China)\n*   **Men's Doubles:** Fernando Gonz\u00e1lez and Nicol\u00e1s Mass\u00fa (Chile)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Comprehensive list matching multiple simultaneous events held at venue across date range, explicitly identifying gold medalists Li Ting and Sun Tiantian."
+    },
+    {
+      "qid": "eval-002",
+      "question": "How many nations competed in Fencing at the 1988 Summer Olympics \u2013 Men's foil?",
+      "question_type": "aggregation",
+      "reference_answer": "29",
+      "predicted_answer": "29 nations competed in Fencing at the 1988 Summer Olympics in the Men's foil event.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 29 (expected 29)."
+    },
+    {
+      "qid": "eval-003",
+      "question": "According to the provided corpus, how many cycling events at the 2008 Summer Olympics had more than 30 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "8",
+      "predicted_answer": "According to the provided corpus, there were 8 cycling events at the 2008 Summer Olympics that had more than 30 competitors:\n\n1. Men's individual road race (143 competitors)\n2. Women's individual road race (66 competitors)\n3. Men's cross-country (50 competitors)\n4. Men's team pursuit (44 competitors)\n5. Men's BMX (32 competitors)\n6. Men's team sprint (39 competitors)\n7. Men's Madison (32 competitors)\n8. Men's road time trial (39 competitors)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 8 (expected 8)."
+    },
+    {
+      "qid": "eval-004",
+      "question": "Who won the gold medal in the event held at Sydney International Shooting Centre on 22 September 2000?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Mariya Grozdeva",
+      "predicted_answer": "The gold medal in the Men's double trap event at the 2000 Sydney Olympics, held at the Sydney International Shooting Centre on 22 September 2000, was won by Richard Faulds.",
+      "original_evaluator_verdict": "INCORRECT",
+      "independent_verdict": "CONFIRMED_INCORRECT",
+      "explanation": "Event/date mismatch: Predicted Men's double trap (Richard Faulds), but that was held on 20 September. 22 September gold was Mariya Grozdeva (Women's 25m pistol)."
+    },
+    {
+      "qid": "eval-005",
+      "question": "According to the provided corpus, which sailing event at the 2016 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's 470",
+      "predicted_answer": "According to the provided corpus, the Men's 470 sailing event at the 2016 Summer Olympics had the highest number of competitors, with a total of 52 athletes.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's 470' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-006",
+      "question": "According to the provided corpus, how many cross-country skiing events at the 2010 Winter Olympics had more than 62 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were **4** cross-country skiing events at the 2010 Winter Olympics that had more than 62 competitors:\n\n*   **Women's 10 kilometre freestyle:** 78 competitors\n*   **Men's 15 kilometre freestyle:** 96 competitors\n*   **Women's 15 kilometre pursuit:** 68 competitors\n*   **Men's 30 kilometre pursuit:** 64 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-007",
+      "question": "Who won the gold medal in the men's heavyweight boxing event at the Summer Olympics held immediately before 2016?",
+      "question_type": "temporal",
+      "reference_answer": "Oleksandr Usyk",
+      "predicted_answer": "The gold medal in the men's heavyweight boxing event at the 2012 Summer Olympics\u2014the Summer Olympics held immediately before the 2016 Games\u2014was won by Oleksandr Usyk.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Oleksandr Usyk'."
+    },
+    {
+      "qid": "eval-008",
+      "question": "According to the provided corpus, how many sailing events at the 1996 Summer Olympics had more than 46 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were 4 sailing events at the 1996 Summer Olympics that had more than 46 competitors:\n\n1.  **Men's 470**: 72 competitors\n2.  **Laser**: 56 competitors\n3.  **Soling**: 66 competitors\n4.  **Star**: 50 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-009",
+      "question": "According to the provided corpus, which sailing event at the 2004 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's 470",
+      "predicted_answer": "According to the provided corpus, the Men's 470 sailing event at the 2004 Summer Olympics had the highest number of competitors, with a total of 54 athletes participating.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's 470' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-010",
+      "question": "How many nations competed in Boxing at the 1996 Summer Olympics \u2013 Flyweight?",
+      "question_type": "aggregation",
+      "reference_answer": "32",
+      "predicted_answer": "32 nations competed in Boxing at the 1996 Summer Olympics \u2013 Flyweight.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 32 (expected 32)."
+    },
+    {
+      "qid": "eval-011",
+      "question": "According to the provided corpus, how many weightlifting events at the 1992 Summer Olympics had more than 24 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were 4 weightlifting events at the 1992 Summer Olympics that had more than 24 competitors:\n\n*   **Men's 82.5 kg:** 31 competitors\n*   **Men's 100 kg:** 25 competitors\n*   **Men's 60 kg:** 31 competitors\n*   **Men's 75 kg:** 34 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-012",
+      "question": "How many nations competed in Swimming at the 2016 Summer Olympics \u2013 Men's 100 metre butterfly?",
+      "question_type": "aggregation",
+      "reference_answer": "32",
+      "predicted_answer": "The Men's 100 metre butterfly event in Swimming at the 2016 Summer Olympics featured 32 competing nations.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 32 (expected 32)."
+    },
+    {
+      "qid": "eval-013",
+      "question": "According to the provided corpus, how many cycling events at the 2016 Summer Olympics had more than 27 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "6",
+      "predicted_answer": "According to the provided corpus, there were 6 cycling events at the 2016 Summer Olympics that had more than 27 competitors:\n\n1. Men's individual road race (144 competitors)\n2. Women's team pursuit (39 competitors)\n3. Men's cross-country (49 competitors)\n4. Women's cross-country (29 competitors)\n5. Women's individual road race (68 competitors)\n6. Men's team pursuit (40 competitors)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 6 (expected 6)."
+    },
+    {
+      "qid": "eval-014",
+      "question": "Who won the gold medal in the event held at San Sicario on February 15, 2006?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Michaela Dorfmeister",
+      "predicted_answer": "The athlete who won the gold medal in the Women's Downhill event at the 2006 Winter Olympics, held at San Sicario on February 15, 2006, was **Michaela Dorfmeister**.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact athlete match: Michaela Dorfmeister won Women's Downhill at San Sicario on February 15, 2006."
+    },
+    {
+      "qid": "eval-015",
+      "question": "How many nations competed in Athletics at the 2016 Summer Olympics \u2013 Men's 400 metres?",
+      "question_type": "aggregation",
+      "reference_answer": "35",
+      "predicted_answer": "In the 2016 Summer Olympics, 35 nations competed in the Athletics \u2013 Men's 400 metres event.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 35 (expected 35)."
+    },
+    {
+      "qid": "eval-016",
+      "question": "How many nations competed in Athletics at the 2008 Summer Olympics \u2013 Women's shot put?",
+      "question_type": "aggregation",
+      "reference_answer": "22",
+      "predicted_answer": "22",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 22 (expected 22)."
+    },
+    {
+      "qid": "eval-017",
+      "question": "Who won the gold medal in the event held at Eton Dorney on 28 July \u2013 4 August 2012?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Miroslava Knapkov\u00e1",
+      "predicted_answer": "Eton Dorney hosted numerous rowing and canoeing events during the 2012 Summer Olympics between 28 July and 11 August. As there were many different events held at this venue during that time, there is no single gold medalist.\n\nFor example, the gold medalist in the women's single sculls at Eton Dorney in 2012 was **Mirka Knapkov\u00e1**. Please specify a particular event if you would like information on a different medal winner.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact athlete match: Mirka / Miroslava Knapkov\u00e1 identified for Women's single sculls held at Eton Dorney 28 July - 4 August 2012."
+    },
+    {
+      "qid": "eval-018",
+      "question": "Who won the gold medal in the event held at Olympic Stadium on 16\u201318 August 2016?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Sara Kolak (Women's javelin throw) / Usain Bolt (Men's 200 metres)",
+      "predicted_answer": "The gold medal in the event held at the Olympic Stadium from 16\u201318 August 2016 was won by **Sunette Viljoen** in the Women's javelin throw event.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_INCORRECT",
+      "explanation": "Factual error: Prediction asserts Sunette Viljoen won gold, but she won silver; gold was won by Sara Kolak."
+    },
+    {
+      "qid": "eval-019",
+      "question": "According to the provided corpus, how many alpine skiing events at the 1998 Winter Olympics had more than 45 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were 4 alpine skiing events at the 1998 Winter Olympics that had more than 45 competitors:\n\n1.  **Women's slalom:** 57 competitors\n2.  **Men's giant slalom:** 62 competitors\n3.  **Women's giant slalom:** 56 competitors\n4.  **Men's slalom:** 65 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-020",
+      "question": "Who won the gold medal in the event held at Royal Artillery Barracks on 5 August 2012?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Jin Jong-oh",
+      "predicted_answer": "The gold medal in the Men's 50 metre rifle three positions event, held at the Royal Artillery Barracks on 5 August 2012 at the 2012 Summer Olympics, was won by Niccol\u00f2 Campriani.",
+      "original_evaluator_verdict": "INCORRECT",
+      "independent_verdict": "CONFIRMED_INCORRECT",
+      "explanation": "Event/date mismatch: Predicted Men's 50m rifle 3 positions (Niccol\u00f2 Campriani, held 6 August). 5 August gold was Jin Jong-oh."
+    },
+    {
+      "qid": "eval-021",
+      "question": "Who won the gold medal in the men's 200 metre backstroke swimming event at the Summer Olympics held immediately before 2016?",
+      "question_type": "temporal",
+      "reference_answer": "Tyler Clary",
+      "predicted_answer": "The gold medal in the men's 200-metre backstroke swimming event at the 2012 Summer Olympics (the Games held immediately before the 2016 Summer Olympics) was won by Tyler Clary.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Tyler Clary'."
+    },
+    {
+      "qid": "eval-022",
+      "question": "How many nations competed in Cross-country skiing at the 2014 Winter Olympics \u2013 Men's sprint?",
+      "question_type": "aggregation",
+      "reference_answer": "40",
+      "predicted_answer": "A total of 40 nations competed in Cross-country skiing at the 2014 Winter Olympics \u2013 Men's sprint.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 40 (expected 40)."
+    },
+    {
+      "qid": "eval-023",
+      "question": "According to the provided corpus, how many shooting events at the 2000 Summer Olympics had more than 42 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "7",
+      "predicted_answer": "According to the provided corpus, there were 7 shooting events at the 2000 Summer Olympics that had more than 42 competitors:\n\n1.  **Men's skeet**: 49 competitors\n2.  **Men's 50 metre rifle three positions**: 44 competitors\n3.  **Men's 50 metre rifle prone**: 53 competitors\n4.  **Men's 10 metre air rifle**: 46 competitors\n5.  **Women's 10 metre air pistol**: 45 competitors\n6.  **Men's 10 metre air pistol**: 43 competitors\n7.  **Women's 10 metre air rifle**: 49 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 7 (expected 7)."
+    },
+    {
+      "qid": "eval-024",
+      "question": "According to the provided corpus, which cross-country skiing event at the 1998 Winter Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's 10 kilometre classical",
+      "predicted_answer": "According to the 1998 Winter Olympics data, the cross-country skiing event with the highest number of competitors was the Men's 10 kilometre classical, which featured 97 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's 10 kilometre classical' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-025",
+      "question": "According to the provided corpus, which rowing event at the 2016 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Women's eight",
+      "predicted_answer": "According to the provided corpus, the rowing event at the 2016 Summer Olympics with the highest number of competitors was the **Women's eight**, which featured 56 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Women's eight' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-026",
+      "question": "How many nations competed in Fencing at the 2000 Summer Olympics \u2013 Men's foil?",
+      "question_type": "aggregation",
+      "reference_answer": "22",
+      "predicted_answer": "22 nations competed in the Men's foil fencing event at the 2000 Summer Olympics.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 22 (expected 22)."
+    },
+    {
+      "qid": "eval-027",
+      "question": "According to the provided corpus, which cycling event at the 2012 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's individual road race",
+      "predicted_answer": "According to the provided corpus, the cycling event with the highest number of competitors at the 2012 Summer Olympics was the **Men's individual road race**, which featured 144 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's individual road race' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-028",
+      "question": "According to the provided corpus, how many wrestling events at the 2012 Summer Olympics had more than 19 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "3",
+      "predicted_answer": "According to the provided corpus, there were 3 wrestling events at the 2012 Summer Olympics that had more than 19 competitors:\n\n1.  **Men's Greco-Roman 84 kg** (20 competitors)\n2.  **Men's Greco-Roman 120 kg** (20 competitors)\n3.  **Women's freestyle 63 kg** (20 competitors)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 3 (expected 3)."
+    },
+    {
+      "qid": "eval-029",
+      "question": "According to the provided corpus, how many boxing events at the 2012 Summer Olympics had more than 26 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "3",
+      "predicted_answer": "According to the provided corpus, there were 3 boxing events at the 2012 Summer Olympics that had more than 26 competitors: the men's light welterweight, men's welterweight, and men's lightweight events, each of which featured 28 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 3 (expected 3)."
+    },
+    {
+      "qid": "eval-030",
+      "question": "According to the provided corpus, which alpine skiing event at the 1994 Winter Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's super-G",
+      "predicted_answer": "According to the provided corpus, the alpine skiing event with the highest number of competitors at the 1994 Winter Olympics was the Men's super-G, which had 69 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's super-G' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-031",
+      "question": "Who won the gold medal in the men's 62 kg weightlifting event at the Summer Olympics held immediately before 2016?",
+      "question_type": "temporal",
+      "reference_answer": "Kim Un-guk",
+      "predicted_answer": "The gold medal in the men's 62 kg weightlifting event at the 2012 Summer Olympics\u2014the Summer Olympics held immediately before the 2016 Games\u2014was won by Kim Un-guk.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Kim Un-guk'."
+    },
+    {
+      "qid": "eval-032",
+      "question": "Who won the gold medal in the event held at Pacific Coliseum on February 20, 2010?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Lee Jung-su (Men's 1000m) / Zhou Yang (Women's 1500m)",
+      "predicted_answer": "On February 20, 2010, at the Pacific Coliseum, the event held was the **Women's 1500 metres** short-track speed skating. The gold medal for this event was won by **Zhou Yang**.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Confirmed correct: Zhou Yang won gold in Women's 1500m held at Pacific Coliseum on February 20, 2010."
+    },
+    {
+      "qid": "eval-033",
+      "question": "According to the provided corpus, how many alpine skiing events at the 1988 Winter Olympics had more than 57 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were 4 alpine skiing events at the 1988 Winter Olympics that had more than 57 competitors:\n\n1.  **Men's super-G** (94 competitors)\n2.  **Men's giant slalom** (117 competitors)\n3.  **Women's giant slalom** (64 competitors)\n4.  **Men's slalom** (109 competitors)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-034",
+      "question": "Who won the gold medal in the men's freestyle 120 kg wrestling event at the Summer Olympics held immediately before 2012?",
+      "question_type": "temporal",
+      "reference_answer": "Bakhtiyar Akhmedov",
+      "predicted_answer": "The gold medal in the men's freestyle 120 kg wrestling event at the 2008 Summer Olympics\u2014the Summer Olympics held immediately before the 2012 Games\u2014was won by Bakhtiyar Akhmedov.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Bakhtiyar Akhmedov'."
+    },
+    {
+      "qid": "eval-035",
+      "question": "According to the provided corpus, which rowing event at the 2012 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Women's eight",
+      "predicted_answer": "According to the provided corpus, the rowing event with the highest number of competitors at the 2012 Summer Olympics was the women's eight, which featured 56 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Women's eight' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-036",
+      "question": "According to the provided corpus, how many short-track speed skating events at the 2018 Winter Olympics had more than 34 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "3",
+      "predicted_answer": "According to the provided corpus, there were 3 short-track speed skating events at the 2018 Winter Olympics that had more than 34 competitors:\n\n1.  **Men's 1500 metres**: 37 competitors.\n2.  **Women's 1500 metres**: 36 competitors.\n3.  **Women's 3000 metre relay**: 37 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 3 (expected 3)."
+    },
+    {
+      "qid": "eval-037",
+      "question": "According to the provided corpus, which sailing event at the 1996 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's 470",
+      "predicted_answer": "According to the provided corpus, the sailing event with the highest number of competitors at the 1996 Summer Olympics was the Men's 470 event, which featured 72 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's 470' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-038",
+      "question": "According to the provided corpus, how many athletics events at the 2008 Summer Olympics had more than 40 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "21",
+      "predicted_answer": "According to the provided corpus, there were 21 athletics events at the 2008 Summer Olympics that had more than 40 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 21 (expected 21)."
+    },
+    {
+      "qid": "eval-039",
+      "question": "According to the provided corpus, how many boxing events at the 1992 Summer Olympics had more than 30 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "3",
+      "predicted_answer": "According to the provided corpus, there were 3 boxing events at the 1992 Summer Olympics that had more than 30 competitors:\n\n*   **Featherweight:** 31 competitors\n*   **Bantamweight:** 31 competitors\n*   **Flyweight:** 31 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 3 (expected 3)."
+    },
+    {
+      "qid": "eval-040",
+      "question": "Who won the gold medal in the event held at Stadium Australia on 27 September 2000 (heats)29 September 2000 (semi-finals)30 September 2000 (final)?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Nouria M\u00e9rah-Benida",
+      "predicted_answer": "The Men's 4x400 metres relay event at the 2000 Sydney Olympics was held at Stadium Australia, with the heats taking place on 27 September, the semi-finals on 29 September, and the final on 30 September 2000. Originally, the United States won the gold medal, but they were later disqualified due to a doping violation by one of their relay team members. Following the disqualification, the International Olympic Committee reallocated the gold medal to the Nigerian team, which consisted of Clement Chukwu, Jude Monye, Sunday Bada, and Enefiok Udo-Obong.",
+      "original_evaluator_verdict": "INCORRECT",
+      "independent_verdict": "CONFIRMED_INCORRECT",
+      "explanation": "Event/date mismatch: Predicted Men's 4x400m relay instead of Women's 1500m (heats 27th, semi 29th, final 30th)."
+    },
+    {
+      "qid": "eval-041",
+      "question": "According to the provided corpus, how many alpine skiing events at the 2006 Winter Olympics had more than 63 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "4",
+      "predicted_answer": "According to the provided corpus, there were 4 alpine skiing events at the 2006 Winter Olympics that had more than 63 competitors:\n\n*   **Men's slalom:** 97 competitors\n*   **Men's giant slalom:** 82 competitors\n*   **Women's giant slalom:** 65 competitors\n*   **Women's slalom:** 64 competitors",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 4 (expected 4)."
+    },
+    {
+      "qid": "eval-042",
+      "question": "Who won the gold medal in the mixed trap shooting event at the Summer Olympics held immediately before 1992?",
+      "question_type": "temporal",
+      "reference_answer": "Dmitry Monakov",
+      "predicted_answer": "The gold medal in the mixed trap shooting event at the Summer Olympics held immediately before 1992 (the 1988 Summer Olympics in Seoul) was won by Dmitry Monakov.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Dmitry Monakov'."
+    },
+    {
+      "qid": "eval-043",
+      "question": "Who won the gold medal in the event held at Carioca Arena 3 on 11 August 2016?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "Romania (Loredana Dinu, Simona Gherman, Simona Pop, Ana Maria Popescu)",
+      "predicted_answer": "On 11 August 2016, the gold medal for the Women's team \u00e9p\u00e9e event at the Rio 2016 Summer Olympics, held at Carioca Arena 3, was won by the team representing **Romania**. The winning team consisted of fencers Ana Maria Popescu, Simona Gherman, Simona Pop, and Loredana Dinu.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Confirmed correct: Romania women's team \u00e9p\u00e9e (Ana Maria Popescu, Simona Gherman, Simona Pop, Loredana Dinu)."
+    },
+    {
+      "qid": "eval-044",
+      "question": "Who won the gold medal in the women's 75 kg weightlifting event at the Summer Olympics held immediately before 2016?",
+      "question_type": "temporal",
+      "reference_answer": "Lydia Valent\u00edn",
+      "predicted_answer": "The gold medal in the women's 75 kg weightlifting event at the 2012 Summer Olympics (the Summer Olympics held immediately before 2016) was won by Lydia Valent\u00edn.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Lydia Valent\u00edn'."
+    },
+    {
+      "qid": "eval-045",
+      "question": "Who won the gold medal in the women's moguls freestyle skiing event at the Winter Olympics held immediately before 2014?",
+      "question_type": "temporal",
+      "reference_answer": "Hannah Kearney",
+      "predicted_answer": "The gold medal in the women's moguls freestyle skiing event at the 2010 Winter Olympics\u2014the Winter Olympics held immediately before 2014\u2014was won by Hannah Kearney.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Hannah Kearney'."
+    },
+    {
+      "qid": "eval-046",
+      "question": "Who won the gold medal in the light flyweight boxing event at the Summer Olympics held immediately before 2004?",
+      "question_type": "temporal",
+      "reference_answer": "Brahim Asloum",
+      "predicted_answer": "The gold medal in the light flyweight boxing event at the 2000 Summer Olympics (the Summer Olympics held immediately before 2004) was won by Brahim Asloum.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact gold medalist identity confirmed for predecessor Games: 'Brahim Asloum'."
+    },
+    {
+      "qid": "eval-047",
+      "question": "According to the provided corpus, which cycling event at the 2004 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's individual road race",
+      "predicted_answer": "According to the provided corpus, the cycling event at the 2004 Summer Olympics with the highest number of competitors was the Men's individual road race, which had 144 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's individual road race' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-048",
+      "question": "According to the provided corpus, how many cycling events at the 2012 Summer Olympics had more than 30 competitors?",
+      "question_type": "aggregation",
+      "reference_answer": "7",
+      "predicted_answer": "According to the provided corpus, there were 7 cycling events at the 2012 Summer Olympics that had more than 30 competitors:\n\n1. Men's individual road race (144 competitors)\n2. Men's cross-country (47 competitors)\n3. Women's individual road race (66 competitors)\n4. Men's team pursuit (44 competitors)\n5. Men's BMX (32 competitors)\n6. Women's team pursuit (32 competitors)\n7. Men's road time trial (37 competitors)",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact integer match: primary asserted number is 7 (expected 7)."
+    },
+    {
+      "qid": "eval-049",
+      "question": "According to the provided corpus, which shooting event at the 1988 Summer Olympics had the highest number of competitors?",
+      "question_type": "superlative",
+      "reference_answer": "Men's 50 metre rifle prone",
+      "predicted_answer": "According to the provided corpus, the shooting event at the 1988 Summer Olympics with the highest number of competitors was the **Men's 50 metre rifle prone** event, which had 55 competitors.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "CONFIRMED_CORRECT",
+      "explanation": "Exact superlative event identity confirmed: 'Men's 50 metre rifle prone' asserted as having highest competitors."
+    },
+    {
+      "qid": "eval-050",
+      "question": "Who won the gold medal in the event held at Olympic Stadium on 6\u20139 August at the 2012 Summer Olympics?",
+      "question_type": "multi_hop_venue_date",
+      "reference_answer": "David Rudisha",
+      "predicted_answer": "Between 6 and 9 August 2012, several athletic events held their finals at the Olympic Stadium during the 2012 Summer Olympics. Gold medalists for events with finals held on these specific dates include:\n\n*   **6 August 2012**: \n    *   **Women's Pole Vault**: Jennifer Suhr (USA) won the gold medal.\n    *   **Men's 400 metres hurdles**: F\u00e9lix S\u00e1nchez (DOM) won the gold medal.\n*   **8 August 2012**:\n    *   **Men's 110 metres hurdles**: Aries Merritt (USA) won the gold medal.\n*   **9 August 2012**:\n    *   **Men's 800 metres**: David Rudisha (KEN) won the gold medal.",
+      "original_evaluator_verdict": "CORRECT",
+      "independent_verdict": "MANUAL_REVIEW",
+      "explanation": "Underspecified question with multi-event breakdown: Question asked for the event held on 6\u20139 August (Men's 800m, David Rudisha). Prediction includes David Rudisha alongside Jennifer Suhr, F\u00e9lix S\u00e1nchez, and Aries Merritt whose finals fell on individual days within that span."
+    }
+  ]
+}

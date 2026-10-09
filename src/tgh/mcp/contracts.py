@@ -86,7 +86,7 @@ class ToolExecutionResult:
             "success": self.success,
             "data": (
                 [item.to_dict() for item in self.data]
-                if isinstance(self.data, list) and hasattr(self.data[0], "to_dict")
+                if isinstance(self.data, list) and self.data and hasattr(self.data[0], "to_dict")
                 else (
                     self.data.to_dict() if hasattr(self.data, "to_dict") else self.data
                 )

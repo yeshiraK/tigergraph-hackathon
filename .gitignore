@@ -77,8 +77,9 @@ experiments/runs/*
 !experiments/runs/agentic_graphrag_public_benchmark_llm_complete.json
 !experiments/runs/tigergraph_nomic_public_benchmark.json
 !experiments/runs/tigergraph_graphrag_public_benchmark.json
-!experiments/runs/tigergraph_adaptive_graphrag_public_benchmark.json
 experiments/runs/*hidden*
+!experiments/runs/agentic_graphrag_hidden_retest_20261008.json
+!experiments/runs/agentic_graphrag_hidden_retest_audit.json
 
 experiments/results/*
 !experiments/results/.gitkeep

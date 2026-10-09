@@ -93,7 +93,7 @@ class EvidenceVerifier:
 
         # 2. Candidate Answer grounding check
         ans_grounded = False
-        norm_tokens = [t for t in norm_ans.split() if len(t) > 2]
+        norm_tokens = [t for t in norm_ans.split() if len(t) > 2 or t.isdigit()]
         for ev in evidence_items:
             norm_fact = _normalize(ev.text_or_fact)
             if norm_ans in norm_fact:
